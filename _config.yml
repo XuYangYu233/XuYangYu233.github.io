@@ -105,5 +105,5 @@ theme: hexo-theme-nexmoe-2.2
 deploy:
   type: git
   repo: git@github.com:XuYangYu233/XuYangYu233.github.io.git
-  branch: main
+  branch: deploy
 
