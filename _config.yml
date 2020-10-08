@@ -105,5 +105,5 @@ theme: landscape
 deploy:
   type: git
   repo: git@github.com:XuYangYu233/XuYangYu233.github.io.git
-  branch: master
+  branch: main
 
