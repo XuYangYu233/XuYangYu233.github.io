@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+  
+  <title>初步认识dosbox_debugger - XYY&#39;s blog</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="this_is_description">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  
+  
+
+  <link rel="shortcut icon" href="/imgs/remote1.png" type="image/png" />
+  <meta name="description" content="搬一篇原来写的东西试试效果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初步认识dosbox_debugger">
+<meta property="og:url" content="http://xuyangyu233.github.io/2020/10/09/%E5%88%9D%E6%AD%A5%E8%AE%A4%E8%AF%86dosbox-debugger/index.html">
+<meta property="og:site_name" content="XYY&#39;s blog">
+<meta property="og:description" content="搬一篇原来写的东西试试效果">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xOTc4ODY4My1mNTUzYTZhODhmMjlhYWIzLnBuZw?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xOTc4ODY4My03ODA4ZjZiNDRiZDFkMDNmLnBuZw?x-oss-process=image/format,png">
+<meta property="article:published_time" content="2020-10-09T08:43:21.000Z">
+<meta property="article:modified_time" content="2020-10-09T08:53:43.968Z">
+<meta property="article:author" content="XuYangYu233">
+<meta property="article:tag" content="masm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xOTc4ODY4My1mNTUzYTZhODhmMjlhYWIzLnBuZw?x-oss-process=image/format,png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
+  
+  <!--<link rel="stylesheet" href="/css/style.css?v=1602233689968">-->
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+  
+  <div id="nexmoe-background">
+    <div class="nexmoe-bg" style="background-image: url(/imgs/nssh.jpg)"></div>
+    <div class="mdui-appbar mdui-shadow-0">
+      <div class="mdui-toolbar">
+        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+        <div class="mdui-toolbar-spacer"></div>
+        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+        <a href="/" title="XuYangYu233" class="mdui-btn mdui-btn-icon"><img src="/imgs/avater.jpg" alt="XuYangYu233"></a>
+       </div>
+    </div>
+  </div>
+  <div id="nexmoe-header">
+      <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="XuYangYu233">
+            <img src="/imgs/avater.jpg" alt="XuYangYu233" alt="XuYangYu233">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>2</div>
+        <div><span>标签</span>2</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about.html" title="关于博客">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博客
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-ellipsis"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+  
+  <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+            <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+        </form>
+    </div>
+</div>
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">社交按钮</h3>
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://github.com/XuYangYu233/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+  
+  
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">标签云</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/masm/" style="font-size: 10px;">masm</a> <a href="/tags/try-try/" style="font-size: 10px;">try_try</a>
+    </div>
+    
+  </div>
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2020 XuYangYu233
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://nexmoe.com/hexo-theme-nexmoe.html" target="_blank">Nexmoe</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+  </div>
+  <div id="nexmoe-content">
+    <div class="nexmoe-primary">
+        <div class="nexmoe-post">
+  
+      <div class="nexmoe-post-cover" style="padding-bottom: 56.25%;"> 
+          <img data-src="/imgs/miku1.jpg" data-sizes="auto" alt="初步认识dosbox_debugger" class="lazyload">
+          <h1>初步认识dosbox_debugger</h1>
+      </div>
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2020年10月09日</a>
+    <a><i class="nexmoefont icon-areachart"></i>1.3k 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
+</div>
+
+  <div class="nexmoe-post-right">
+    
+  </div>
+
+  <article>
+    <p>搬一篇原来写的东西试试效果</p>
+<a id="more"></a>
+
+<h2 id="0-这是什么东西？"><a href="#0-这是什么东西？" class="headerlink" title="0.这是什么东西？"></a>0.这是什么东西？</h2><p>DOSBox debugger是一款由DOSBox原作者为DOSBox量身打造的调试器，几乎所有运行于DOSBox上的程序都可以用它进行调试。0.74-3版本的下载地址为<a target="_blank" rel="noopener" href="http://source.dosbox.com/dosbox-74-3-debug.exe">http://source.dosbox.com/dosbox-74-3-debug.exe</a><br><img data-sizes="auto" data-src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xOTc4ODY4My1mNTUzYTZhODhmMjlhYWIzLnBuZw?x-oss-process=image/format,png" alt="dosbox_debugger的界面" class="lazyload"></p>
+<h2 id="1-为什么选择DOSBox-debugger"><a href="#1-为什么选择DOSBox-debugger" class="headerlink" title="1.为什么选择DOSBox debugger?"></a>1.为什么选择DOSBox debugger?</h2><p>不同的人可能有不同的理由，我的理由是为了学习16位和32位masm汇编。在64位操作系统上学习汇编有很多方式，那么为什么是dosbox及其debugger？</p>
+<h4 id="（1）开门见山地说吧，最重要的一点，就是在masm-code插件的加持下，dosbox-debugger可以完美地兼容于vscode"><a href="#（1）开门见山地说吧，最重要的一点，就是在masm-code插件的加持下，dosbox-debugger可以完美地兼容于vscode" class="headerlink" title="（1）开门见山地说吧，最重要的一点，就是在masm-code插件的加持下，dosbox debugger可以完美地兼容于vscode"></a>（1）开门见山地说吧，最重要的一点，就是在masm-code插件的加持下，dosbox debugger可以完美地兼容于vscode</h4><p>vscode，永远滴神</p>
+<h4 id="（2）VS上同样可以写masm，而且VS自带的调试器功能更强大，界面更友好，那为啥不用VS？一是因为VS实在太大了，二是因为vscode永远滴神"><a href="#（2）VS上同样可以写masm，而且VS自带的调试器功能更强大，界面更友好，那为啥不用VS？一是因为VS实在太大了，二是因为vscode永远滴神" class="headerlink" title="（2）VS上同样可以写masm，而且VS自带的调试器功能更强大，界面更友好，那为啥不用VS？一是因为VS实在太大了，二是因为vscode永远滴神"></a>（2）VS上同样可以写masm，而且VS自带的调试器功能更强大，界面更友好，那为啥不用VS？一是因为VS实在太大了，二是因为vscode永远滴神</h4><p>三是因为VS配置起来比较麻烦，而我比较懒</p>
+<h4 id="（3）emu8086？毕竟是8086，不支持32位"><a href="#（3）emu8086？毕竟是8086，不支持32位" class="headerlink" title="（3）emu8086？毕竟是8086，不支持32位"></a>（3）emu8086？毕竟是8086，不支持32位</h4><h4 id="（4）masm-for-windows？本体就是个文本编辑器，主要原因是丑"><a href="#（4）masm-for-windows？本体就是个文本编辑器，主要原因是丑" class="headerlink" title="（4）masm for windows？本体就是个文本编辑器，主要原因是丑"></a>（4）masm for windows？本体就是个文本编辑器，主要原因是丑</h4><p>众所周知，好看的工作环境有利于提高工作效率</p>
+<h4 id="（5）Red-asm-Visual-asm-等等？别问，问就是vscode天下第一"><a href="#（5）Red-asm-Visual-asm-等等？别问，问就是vscode天下第一" class="headerlink" title="（5）Red asm/Visual asm/等等？别问，问就是vscode天下第一"></a>（5）Red asm/Visual asm/等等？别问，问就是vscode天下第一</h4><h4 id="（6）为什么不用dosbox原本的debug-exe-功能少而且难以查看32位寄存器"><a href="#（6）为什么不用dosbox原本的debug-exe-功能少而且难以查看32位寄存器" class="headerlink" title="（6）为什么不用dosbox原本的debug.exe?功能少而且难以查看32位寄存器"></a>（6）为什么不用dosbox原本的debug.exe?功能少而且难以查看32位寄存器</h4><h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><p>dosbox怎么装我就不说了，网上一大堆。从上面那个链接下载了debugger之后，将其放在dosbox.exe同一个文件夹下，就基本ok了，双击该exe就可以打开了。</p>
+<p>如果是使用了masm-code的vscode，那么就放在C:\Users\你的名字\AppData\Roaming\Code\User\globalStorage\kaixa.masm-code这个文件夹里，并把这个debugger的文件名改成DOSBox.exe，把原来的DOSBox.exe改成另外的名字。这样就可以让你在使用vscode时通过ctrl+shift+p或者F1直接启动dosbox及其debugger<img data-sizes="auto" data-src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xOTc4ODY4My03ODA4ZjZiNDRiZDFkMDNmLnBuZw?x-oss-process=image/format,png" alt="在这里启动" class="lazyload"><br>弹出dosbox窗口后，输入debug xxxx.exe并按下回车，dosbox debugger就会开始工作了。</p>
+<h2 id="3-使用"><a href="#3-使用" class="headerlink" title="3.使用"></a>3.使用</h2><p>这款调试器有别于现在的大多数高级语言调试器，鼠标基本是完全没用的，想要操作它必须得用键盘上的各种键或者在其里面敲命令。下面就讲讲几个常用的键位：<br>单步运行 F10<br>查看数据段内存 alt+D（记得等程序将数据段地址传给DS之后）<br>然后没了。由于本人能力所限，目前常用的就这两条。当然，还是把其他的键或指令都展示一下：</p>
+<blockquote>
+<p>F3 / F6-历史记录中的上一个命令。<br>F4 / F7-历史中的下一个命令。<br>F5-运行。<br>F9-设置/删除断点。<br>F10 / F11-跨步/追溯到指令。<br>ALT + D / E / S / X / B-将数据视图设置为DS：SI / ES：DI / SS：SP / DS：DX / ES：BX。<br>esc-清除输入行。<br>上/下-移动代码视图光标。<br>Page Up / Down-滚动数据视图。<br>Home / End-滚动日志消息。<br>BP [段]：[偏移]-设置断点。<br>BPINT [intNr] *-设置中断断点。<br>BPINT [intNr] [ah] *-用ah设置中断断点。<br>BPINT [intNr] [ah] [al]-使用ah和al设置中断断点。<br>BPM [段]：[偏移量]-设置内存断点（内存更改）。<br>BPPM [选择器]：[偏移量]-设置pmode内存断点（内存更改）。<br>BPLM [线性地址]-设置线性内存断点（内存更改）。<br>BPLIST-列出断点。<br>BPDEL [bpNr] / *-删除断点nr /全部。<br>C / D [段]：[偏移量]-设置代码/数据视图地址。<br>DOS MCBS-显示内存控制块链。<br>INT [nr] / INTT [nr]-执行/跟踪到中断。<br>LOG [num]-写入cpu日志文件。<br>LOGS / LOGL [num]-写入长/短的cpu日志文件。<br>HEAVYLOG-在dosbox退出时启用/禁用自动cpu日志。<br>ZEROPROTECT-启用/禁用零代码执行检测。<br>SR [reg] [value]-设置寄存器值<br>SM [seg]：[off] [val] [。] ..-用以下值设置存储器。<br>IV [seg]：[off] [name]-为内存地址创建var名称。<br>SV [filename]-将var列表保存在文件中。<br>LV [filename]-从文件加载var列表。<br>ADDLOG [消息]-将消息添加到日志文件。<br>MEMDUMP [seg]：[off] [len]-将内存写入文件memdump.txt。<br>MEMDUMPBIN ：[o] [len]-将内存写入文件memdump.bin。<br>SELINFO [segName]-显示选择器信息。<br>INTVEC [文件名]-将中断向量表写入文件。<br>INTHAND [intNum]-将代码视图设置为中断处理程序。<br>CPU-显示CPU状态信息。<br>GDT-列出GDT的描述符。<br>LDT-列出LDT的描述符。<br>IDT-列出IDT的描述符。<br>PAGING [页面]-显示页面表的内容。<br>EXTEND-切换其他信息。<br>TIMERIRQ-运行系统计时器。<br>HELP-帮助</p>
+</blockquote>
+<p>来源：<a target="_blank" rel="noopener" href="https://www.vogons.org/viewtopic.php?t=3944">https://www.vogons.org/viewtopic.php?t=3944</a></p>
+<h2 id="4-结语"><a href="#4-结语" class="headerlink" title="4.结语"></a>4.结语</h2><p>其实也没啥好说的，这个debugger还是比较傻瓜的。<br>当然，感谢dosbox及其debugger的作者，感谢Wgagaxnunigo sf让我知道了这款强大的调试器，感谢masm-code的作者kaixa，感谢我在知乎上的wz大佬（有空可以去看看她的关于vscode配置masm环境的文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/105268949">https://zhuanlan.zhihu.com/p/105268949</a>）<br>由于本人水平所限，此片文章中可能存在一些错误或繁琐之处，还望各路大佬多多指教。</p>
+
+  </article>
+
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/masm/" rel="tag">masm</a>
+    
+</div>
+
+  <div class="nexmoe-post-footer">
+    
+      
+  <div class="nexmoe-post-copyright">
+    <strong>本文作者：</strong>XuYangYu233<br>
+    <strong>本文链接：</strong><a href="http://xuyangyu233.github.io/2020/10/09/%E5%88%9D%E6%AD%A5%E8%AE%A4%E8%AF%86dosbox-debugger/" title="http:&#x2F;&#x2F;xuyangyu233.github.io&#x2F;2020&#x2F;10&#x2F;09&#x2F;%E5%88%9D%E6%AD%A5%E8%AE%A4%E8%AF%86dosbox-debugger&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;xuyangyu233.github.io&#x2F;2020&#x2F;10&#x2F;09&#x2F;%E5%88%9D%E6%AD%A5%E8%AE%A4%E8%AF%86dosbox-debugger&#x2F;</a><br>
+    
+      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+    
+  </div>
+
+
+    
+    <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+  </div>
+</div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!--<script src="/js/app.js?v=1602233689969"></script>-->
+
+
+    <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
+
+
+
+  
+
+
+
+
+
+</body>
+
+</html>
