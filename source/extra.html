@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<title>菜鸟教程 测试</title> 
+</head>
+<body>
+	
+<script>
+function changeImage()
+{
+	element=document.getElementById('myimage')
+	if (element.src.match("bulbon"))
+	{
+		element.src="https://www.runoob.com/images/pic_bulboff.gif";
+	}
+	else
+	{
+		element.src="https://www.runoob.com/images/pic_bulbon.gif";
+	}
+}
+</script>
+<img id="myimage" onclick="changeImage()" src="https://www.runoob.com/images/pic_bulboff.gif" width="100" height="180">
+<p>点击灯泡就可以打开或关闭这盏灯</p>
+<p>经检验该页面可以执行js脚本</p>
+
+</body>
+</html>

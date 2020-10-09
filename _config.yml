@@ -4,11 +4,11 @@
 
 # Site
 title: XYY's blog
-subtitle: this_is_subtitle
+subtitle: what_is_subtitle
 description: this_is_description
-keywords:
+keywords: this_is_keywords
 author: XuYangYu233
-language: en
+language: zh-CN
 timezone: ''
 
 # URL
@@ -32,7 +32,7 @@ i18n_dir: :lang
 skip_render:
 
 # Writing
-new_post_name: :title.md # File name of new posts
+new_post_name: month-:day-:title.md  # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
 external_link:
@@ -45,11 +45,11 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: true
+  enable: false
   line_number: true
   auto_detect: false
-  tab_replace: ''
-  wrap: true
+  tab_replace: '    '
+  wrap: false
   hljs: false
 prismjs:
   enable: false
@@ -99,6 +99,7 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: hexo-theme-nexmoe-2.2
+# theme_config:
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
