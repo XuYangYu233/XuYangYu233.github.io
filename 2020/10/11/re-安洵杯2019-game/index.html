@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+  
+  <title>re_安洵杯2019_game - XYY&#39;s blog</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="this_is_description">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  
+  
+
+  <link rel="shortcut icon" href="/imgs/remote1.png" type="image/png" />
+  <meta name="description" content="一道看起来难以下手，但摸清套路后其实还挺明了的逆向题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="re_安洵杯2019_game">
+<meta property="og:url" content="http://xuyangyu233.github.io/2020/10/11/re-%E5%AE%89%E6%B4%B5%E6%9D%AF2019-game/index.html">
+<meta property="og:site_name" content="XYY&#39;s blog">
+<meta property="og:description" content="一道看起来难以下手，但摸清套路后其实还挺明了的逆向题">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-11T14:52:15.000Z">
+<meta property="article:modified_time" content="2020-10-11T15:32:32.880Z">
+<meta property="article:author" content="XuYangYu233">
+<meta property="article:tag" content="re">
+<meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
+  
+  <!--<link rel="stylesheet" href="/css/style.css?v=1602430367520">-->
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+  
+  <div id="nexmoe-background">
+    <div class="nexmoe-bg" style="background-image: url(/imgs/nssh.jpg)"></div>
+    <div class="mdui-appbar mdui-shadow-0">
+      <div class="mdui-toolbar">
+        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+        <div class="mdui-toolbar-spacer"></div>
+        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+        <a href="/" title="XuYangYu233" class="mdui-btn mdui-btn-icon"><img src="/imgs/avater.jpg" alt="XuYangYu233"></a>
+       </div>
+    </div>
+  </div>
+  <div id="nexmoe-header">
+      <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="XuYangYu233">
+            <img src="/imgs/avater.jpg" alt="XuYangYu233" alt="XuYangYu233">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>3</div>
+        <div><span>标签</span>3</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about.html" title="关于博客">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博客
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/extra.html" title="额外内容">
+            <i class="mdui-list-item-icon nexmoefont icon-ellipsis"></i>
+            <div class="mdui-list-item-content">
+                额外内容
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+  
+  <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        <form id="search_form" action_e="https://cn.bing.com/search?q=https://xuyangyu233.github.io/" onsubmit="return search();">
+            <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+        </form>
+    </div>
+</div>
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">社交按钮</h3>
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://github.com/XuYangYu233/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+  
+  
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">标签云</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/masm/" style="font-size: 10px;">masm</a> <a href="/tags/re/" style="font-size: 10px;">re</a> <a href="/tags/try-try/" style="font-size: 10px;">try_try</a>
+    </div>
+    
+  </div>
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2020 XuYangYu233
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://nexmoe.com/hexo-theme-nexmoe.html" target="_blank">Nexmoe</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+  </div>
+  <div id="nexmoe-content">
+    <div class="nexmoe-primary">
+        <div class="nexmoe-post">
+  
+      <div class="nexmoe-post-cover" style="padding-bottom: 59.71302428256071%;"> 
+          <img data-src="/imgs/illust_79816974_20200307_204222.png" data-sizes="auto" alt="re_安洵杯2019_game" class="lazyload">
+          <h1>re_安洵杯2019_game</h1>
+      </div>
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2020年10月11日</a>
+    <a><i class="nexmoefont icon-areachart"></i>1.1k 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
+</div>
+
+  <div class="nexmoe-post-right">
+    
+  </div>
+
+  <article>
+    <p>一道看起来难以下手，但摸清套路后其实还挺明了的逆向题</p>
+<a id="more"></a>
+
+<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>64位ELF文件，拖入IDA，无壳。通过字符串定位到主函数：</p>
+<pre><code class="c">int __cdecl main(int argc, const char **argv, const char **envp)
+&#123;
+  signed int v3; // eax
+  int v4; // ST38_4
+  signed int *v5; // rsi
+  signed int v7; // [rsp+2Ch] [rbp-54h]
+  char v8; // [rsp+40h] [rbp-40h]
+  int v9; // [rsp+78h] [rbp-8h]
+  int v10; // [rsp+7Ch] [rbp-4h]
+
+  v9 = 0;
+  printf(&quot;input your flag:&quot;, argv, envp);
+  gets(&amp;v8);
+  v10 = general_inspection((int (*)[9])sudoku);
+  v7 = 0x9471480F;
+  while ( 1 )
+  &#123;
+    while ( 1 )
+    &#123;
+      while ( v7 == 0x848D30C0 )
+      &#123;
+        v4 = blank_num((int (*)[9])sudoku);
+        v5 = (signed int *)mem_alloc(v4);
+        trace((__int64)sudoku, v5, v4);
+        check((int (*)[9])sudoku);
+        check1(&amp;v8);
+        check3(&amp;v8);
+        v9 = 0;
+        v7 = 0xEDE5424E;
+      &#125;
+      if ( v7 != 0x9471480F )
+        break;
+      v3 = 0x848D30C0;
+      if ( v10 )
+        v3 = 0x27966BFF;
+      v7 = v3;
+    &#125;
+    if ( v7 == 0xEDE5424E )
+      break;
+    if ( v7 == 0x27966BFF )
+    &#123;
+      printf(&quot;error&quot;);
+      check((int (*)[9])sudoku);
+      v9 = 0;
+      v7 = 0xEDE5424E;
+    &#125;
+  &#125;
+  return v9;
+&#125;</code></pre>
+<p>说实话这个变量名真是帮大忙了，百度搜索sudoku发现是数独。看了下sudoku的定义部分确实就是一个数独，于是提取出来放到百度上解出，得到可填入部分：4693641762894685722843556137219876255986</p>
+<p>直接把这一串输入题目，返回error</p>
+<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>观察main函数，发现输入的字符串存储在v8，而使用了v8的只有check1()和check3()两个函数，可以初步确定这两个函数比较重要</p>
+<p>进行动调。发现在经过check1()之前v8字符串没有变化，经过后似乎是进行了某种加密。check3()虽然逻辑比较乱但其实就是对check2()返回值进行简单判断：</p>
+<pre><code class="c">__int64 __fastcall check3(char *a1)
+&#123;
+  __int64 result; // rax
+  signed int v2; // eax
+  signed int v3; // [rsp+28h] [rbp-18h]
+  int v4; // [rsp+3Ch] [rbp-4h]
+
+  v4 = check2(a1);
+  v3 = 0xF607AE;
+  while ( 1 )
+  &#123;
+    while ( v3 == 0xF607AE )
+    &#123;
+      v2 = 0x5819697A;
+      if ( !v4 )
+        v2 = 0x4BF1B86E;
+      v3 = v2;
+    &#125;
+    result = (unsigned int)(v3 - 824643665);
+    if ( v3 == 824643665 )
+      break;
+    if ( v3 == 0x4BF1B86E )
+    &#123;
+      v3 = 0x31271051;
+      printf(&quot;error!\n&quot;);
+    &#125;
+    else if ( v3 == 0x5819697A )   // if v4 == 1
+    &#123;
+      v3 = 0x31271051;
+      printf(&quot;you get it!\n&quot;);
+    &#125;
+  &#125;
+  return result;
+&#125;</code></pre>
+<p>查看check2()函数，发现函数内出现了sudoku，而check1()中则没有出现。可以判定check2()是填入数独的函数，check1()是加密函数。</p>
+<p>对check1()进行分析后发现其加密过程可分为三个阶段:</p>
+<pre><code class="c">__int64 __fastcall check1(char *input)
+&#123;
+  __int64 result; // rax
+  size_t v2; // rax
+  signed int v3; // ecx
+  char v4; // ST6F_1
+  size_t v5; // rax
+  signed int v6; // ecx
+  char v7; // ST6E_1
+  size_t v8; // rax
+  signed int v9; // ecx
+  signed int v10; // [rsp+68h] [rbp-18h]
+  int v11; // [rsp+70h] [rbp-10h]
+  int v12; // [rsp+74h] [rbp-Ch]
+
+  v12 = strlen(input) &gt;&gt; 1;
+  v11 = 0;
+  v10 = 0x5A8A255C;
+  while ( 1 )
+  &#123;
+    while ( 1 )
+    &#123;
+      while ( 1 )
+      &#123;
+        while ( 1 )
+        &#123;
+          while ( 1 )
+          &#123;
+            while ( 1 )
+            &#123;
+              while ( 1 )
+              &#123;
+                while ( v10 == 0x83BBF730 )
+                &#123;
+                  v8 = strlen(input);
+                  v9 = 0xFBFDE91A;
+                  if ( v12 &lt; v8 )
+                    v9 = 0x75B73061;
+                  v10 = v9;
+                &#125;
+                if ( v10 != 0x89775DDA )
+                  break;
+                v12 = 0;
+                v10 = 0x83BBF730;
+              &#125;
+              if ( v10 != 0xACF6779C )
+                break;
+              v5 = strlen(input);
+              v6 = 0x89775DDA;
+              if ( v12 &lt; v5 )                   // 阶段二:将input中的相邻两个字符互换
+                v6 = 0xC34B5938;
+              v10 = v6;
+            &#125;
+            if ( v10 != 0xC34B5938 )
+              break;
+            v7 = input[v12];
+            input[v12] = input[v12 + 1];
+            input[v12 + 1] = v7;
+            v10 = 0xF740BE75;
+          &#125;
+          if ( v10 != 0xCE7094F9 )
+            break;
+          ++v12;
+          v10 = 0x83BBF730;
+        &#125;
+        if ( v10 != 0xEEA33328 )
+          break;
+        ++v11;
+        ++v12;
+        v10 = 0x5A8A255C;
+      &#125;
+      if ( v10 != 0xF740BE75 )
+        break;
+      v12 += 2;
+      v10 = 0xACF6779C;
+    &#125;
+    result = (unsigned int)(v10 + 0x40216E6);
+    if ( v10 == 0xFBFDE91A )
+      break;
+    switch ( v10 )
+    &#123;
+      case 0x47E3A40:                           // 阶段一:将input的前半部分和后半部分对换
+        v4 = input[v12];
+        input[v12] = input[v11];
+        input[v11] = v4;
+        v10 = 0xEEA33328;
+        break;
+      case 0x5A8A255C:
+        v2 = strlen(input);
+        v3 = 0x5CBA7BC7;
+        if ( v11 &lt; v2 &gt;&gt; 1 )
+          v3 = 0x47E3A40;
+        v10 = v3;
+        break;
+      case 0x5CBA7BC7:
+        v12 = 0;
+        v10 = 0xACF6779C;
+        break;
+      case 0x75B73061:
+        input[v12] = (input[v12] &amp; 0xF3 | ~input[v12] &amp; 0xC) - 20;// 阶段三:input中每个字符2，3位取反然后-20
+        v10 = 0xCE7094F9;
+        break;
+    &#125;
+  &#125;
+  return result;
+&#125;</code></pre>
+<p>推测是要让加密后的字符串等于4693641762894685722843556137219876255986这一串需要填入的数字</p>
+<h2 id="3"><a href="#3" class="headerlink" title="3"></a>3</h2><p>于是可以写出如下脚本:</p>
+<pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+int main() &#123;
+    char a[] = &quot;4693641762894685722843556137219876255986&quot;;
+    int len = strlen(a);
+    int i;
+    char temp;
+    for (i = 0; i &lt; len; i++) &#123;
+        temp = a[i] + 20;
+        temp = temp &amp; 0xf3 | ~temp &amp; 0xc;
+        a[i] = temp;
+    &#125;
+    for (i = 0; i &lt; len; i+=2) &#123;
+        temp = a[i];
+        a[i] = a[i+1];
+        a[i+1] = temp;
+    &#125;
+    for (i = 0; i &lt; len / 2; i++) &#123;
+        temp = a[i];
+        a[i] = a[i+len/2];
+        a[i+len/2] = temp;
+    &#125;
+    printf(&quot;%s\n&quot;, a);
+
+    return 0;
+&#125;</code></pre>
+<p>用c写的原因是该加密过程中需要取出2，3位进行取反，用Python感觉不太方便</p>
+<p>执行后可得出一串字符串:KDEEIFGKIJ@AFGEJAEF@FDKADFGIJFA@FDE@JG@J，填入程序后返回you get it，说明成功</p>
+<h2 id="4"><a href="#4" class="headerlink" title="4"></a>4</h2><p>这道题里面的流程控制的形式有点像汇编那种到处跳来跳去的那种，我寻思是否可以有一种类似反汇编器一样的东西可以把这种流程转化为正常c语言的那种流程</p>
+
+  </article>
+
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/re/" rel="tag">re</a>
+    
+</div>
+
+  <div class="nexmoe-post-footer">
+    
+      
+  <div class="nexmoe-post-copyright">
+    <strong>本文作者：</strong>XuYangYu233<br>
+    <strong>本文链接：</strong><a href="http://xuyangyu233.github.io/2020/10/11/re-%E5%AE%89%E6%B4%B5%E6%9D%AF2019-game/" title="http:&#x2F;&#x2F;xuyangyu233.github.io&#x2F;2020&#x2F;10&#x2F;11&#x2F;re-%E5%AE%89%E6%B4%B5%E6%9D%AF2019-game&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;xuyangyu233.github.io&#x2F;2020&#x2F;10&#x2F;11&#x2F;re-%E5%AE%89%E6%B4%B5%E6%9D%AF2019-game&#x2F;</a><br>
+    
+      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+    
+  </div>
+
+
+    
+    <section class="nexmoe-comment">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81MTcxNi8yODE5Nw==">
+    <script id="livere-comment-js">
+    (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+       if (typeof LivereTower === 'function') { return; }
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+</div>
+</section>
+  </div>
+</div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!--<script src="/js/app.js?v=1602430367521"></script>-->
+
+
+    <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
+
+
+
+  
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?562deab756be569cd4b29893e45466a1';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
