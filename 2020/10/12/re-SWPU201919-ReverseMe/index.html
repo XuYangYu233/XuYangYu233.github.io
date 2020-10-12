@@ -12,21 +12,21 @@
   
 
   <link rel="shortcut icon" href="/imgs/remote1.png" type="image/png" />
-  <meta name="description" content="һ�����ܹ��̻�����ڵ�������">
+  <meta name="description" content="一道加密过程花里胡哨的逆向题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="re_SWPU201919_ReverseMe">
 <meta property="og:url" content="http://xuyangyu233.github.io/2020/10/12/re-SWPU201919-ReverseMe/index.html">
 <meta property="og:site_name" content="XYY&#39;s blog">
-<meta property="og:description" content="һ�����ܹ��̻�����ڵ�������">
+<meta property="og:description" content="一道加密过程花里胡哨的逆向题">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-10-12T15:46:59.000Z">
-<meta property="article:modified_time" content="2020-10-12T16:29:42.718Z">
+<meta property="article:modified_time" content="2020-10-12T16:35:21.290Z">
 <meta property="article:author" content="XuYangYu233">
 <meta property="article:tag" content="re">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1602520197285">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1602520536010">-->
 
   
 <meta name="generator" content="Hexo 5.2.0"></head>
@@ -156,8 +156,8 @@
   
   <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
     <a><i class="nexmoefont icon-calendar-fill"></i>2020年10月12日</a>
-    <a><i class="nexmoefont icon-areachart"></i>1.2k 字</a>
-    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 7 分钟</a>
+    <a><i class="nexmoefont icon-areachart"></i>1.4k 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 8 分钟</a>
 </div>
 
   <div class="nexmoe-post-right">
@@ -165,10 +165,10 @@
   </div>
 
   <article>
-    <p>һ�����ܹ��̻�����ڵ�������</p>
+    <p>一道加密过程花里胡哨的逆向题</p>
 <a id="more"></a>
 
-<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>exe�ļ����޿ǡ�ֱ������IDA�У����ݹؼ��ַ����ɶ�λ����Ҫ������:</p>
+<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>exe文件，无壳。直接拖入IDA中，根据关键字符串可定位至主要函数中:</p>
 <pre><code class="c">int __thiscall sub_EC2810(void *this)
 &#123;
   int v1; // eax
@@ -242,7 +242,7 @@
       v7 = (int *)&amp;input;
       if ( v26 &gt;= 0x10 )
         v7 = input;
-      *((_BYTE *)v7 + v5) ^= *((_BYTE *)&amp;v33 + v5 % v6);// ѭ�����
+      *((_BYTE *)v7 + v5) ^= *((_BYTE *)&amp;v33 + v5 % v6);// 循环异或
       ++v5;
     &#125;
     while ( v5 &lt; 32 );
@@ -325,8 +325,8 @@ LABEL_19:
   &#125;
   return 0;
 &#125;</code></pre>
-<p>���Կ���69��76����һ������һ��ѭ����򣬽�������ַ�����”SWPU_2019_CTF”����ѭ�����Ȼ��������ַ�������v30���ٴ���complex_encrypt()�����ܽ��ͨ��v27��������v36���бȽϡ�</p>
-<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>��ô������һ��complex_encrypt()����:</p>
+<p>可以看出69到76行这一部分是一个循环异或，将输入的字符串与”SWPU_2019_CTF”进行循环异或，然后将异或后的字符串放入v30，再传入complex_encrypt()，加密结果通过v27带出，与v36进行比较。</p>
+<h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>那么再来看一下complex_encrypt()函数:</p>
 <pre><code class="c">void __cdecl complex_encrypt(int a1, int a2, int a3, unsigned int a4_v30, unsigned int a5_v27)
 &#123;
   int v5; // ecx
@@ -450,8 +450,8 @@ LABEL_19:
   &#125;
   sub_ECAE05(v31);
 &#125;</code></pre>
-<p>��һ�ۿ���ȥ�ǳ����ӣ����һ��õ���xmm�Ĵ���������ϸ������Ϳ��Է���106����ǰ�Ĳ��ֶ����ڹ̶�������һ�ű��������ļ�����106�Ժ��һС���֣���ʵ�Ǿ��ǰ�������ַ������������һ�����ͨ���������Ի���������</p>
-<h2 id="3"><a href="#3" class="headerlink" title="3"></a>3</h2><p>���ǿ���д���ű�:</p>
+<p>第一眼看上去非常复杂，而且还用到了xmm寄存器。但仔细分析后就可以发现106行以前的部分都是在固定地生成一张表，真正的加密在106以后的一小部分，其实是就是把输入的字符串与表进行了一次异或。通过动调可以获得这个表。</p>
+<h2 id="3"><a href="#3" class="headerlink" title="3"></a>3</h2><p>于是可以写出脚本:</p>
 <pre><code class="Python">table = [0xca3e0c86, 0x19aed798, 0xa66b77e2, 0xb077a16a, 0x05379169, 0x307bf97a, 0x104b5a43, 0x28d47d86]
 res = [0xF80F37B3, 0x5DAEBCBC, 0x864D5ABA, 0xD3629744, 0x1624BA4F, 0x1A729F0B, 0x266D6865, 0x67C86BBA]
 c = []
@@ -472,9 +472,9 @@ for i in range(len(b)):
 a = &quot;SWPU_2019_CTF&quot;
 for i in range(len(blist)):
     print(chr(blist[i] ^ ord(a[i%len(a)])), end=&quot;&quot;)</code></pre>
-<p>���к�õ�flag{Y0uaretheB3st!#@_VirtualCC}</p>
-<h2 id="4"><a href="#4" class="headerlink" title="4"></a>4</h2><p>������ö�����</p>
-<p>���⣬��л����ʱrobot-r sf��һ�������һЩָ��������ǿ�з�����һ��complex_encrypt()������</p>
+<p>运行后得到flag{Y0uaretheB3st!#@_VirtualCC}</p>
+<h2 id="4"><a href="#4" class="headerlink" title="4"></a>4</h2><p>灵活运用动调。</p>
+<p>另外，感谢做题时robot-r sf在一旁提出了一些指导，差点就强行分析了一波complex_encrypt()。。。</p>
 
   </article>
 
@@ -518,7 +518,7 @@ for i in range(len(blist)):
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1602520197286"></script>-->
+<!--<script src="/js/app.js?v=1602520536011"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
