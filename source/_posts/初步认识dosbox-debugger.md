@@ -1,7 +1,7 @@
 ---
 title: 初步认识dosbox_debugger
 date: 2020-10-09 16:43:21
-tags: masma
+tags: masm
 cover: /imgs/miku1.jpg
 coverWidth: 1600
 coverHeight: 900
