@@ -1,5 +1,5 @@
 ---
-title: re_WUSTCTF2020_funnyre
+title: re_[WUSTCTF2020]funnyre
 date: 2020-10-14 19:28:55
 tags: re
 cover: /imgs/home.jpg

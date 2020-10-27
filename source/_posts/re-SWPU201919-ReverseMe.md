@@ -1,5 +1,5 @@
 ---
-title: re_SWPU201919_ReverseMe
+title: re_[SWPU201919]ReverseMe
 date: 2020-10-12 23:46:59
 tags: re
 cover: /imgs/citynight1.jpg

@@ -1,5 +1,5 @@
 ---
-title: re_安洵杯2019_game
+title: re_[安洵杯2019]game
 date: 2020-10-11 22:52:15
 tags: re
 cover: /imgs/illust_79816974_20200307_204222.png
