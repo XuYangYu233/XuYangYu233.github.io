@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+  
+  <title>豆瓣影评信息爬取小结 - XYY&#39;s blog</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="this_is_description">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  
+  
+
+  <link rel="shortcut icon" href="/imgs/remote1.png" type="image/png" />
+  <meta name="description" content="社会计算课的报告，虽然难度上不大，但挺花时间的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="豆瓣影评信息爬取小结">
+<meta property="og:url" content="http://xuyangyu233.github.io/2020/11/08/spider-try/index.html">
+<meta property="og:site_name" content="XYY&#39;s blog">
+<meta property="og:description" content="社会计算课的报告，虽然难度上不大，但挺花时间的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2020/11/08/BTsROK.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/11/08/BTsgQx.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/11/08/BTyM11.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/11/08/BTyKpR.png">
+<meta property="article:published_time" content="2020-11-08T15:02:28.000Z">
+<meta property="article:modified_time" content="2020-11-08T16:05:27.411Z">
+<meta property="article:author" content="XuYangYu233">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/11/08/BTsROK.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
+  
+  <!--<link rel="stylesheet" href="/css/style.css?v=1604851543905">-->
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+  
+  <div id="nexmoe-background">
+    <div class="nexmoe-bg" style="background-image: url(/imgs/nssh.jpg)"></div>
+    <div class="mdui-appbar mdui-shadow-0">
+      <div class="mdui-toolbar">
+        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+        <div class="mdui-toolbar-spacer"></div>
+        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+        <a href="/" title="XuYangYu233" class="mdui-btn mdui-btn-icon"><img src="/imgs/avater.jpg" alt="XuYangYu233"></a>
+       </div>
+    </div>
+  </div>
+  <div id="nexmoe-header">
+      <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="XuYangYu233">
+            <img src="/imgs/avater.jpg" alt="XuYangYu233" alt="XuYangYu233">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>7</div>
+        <div><span>标签</span>4</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about.html" title="关于博客">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博客
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/extra.html" title="额外内容">
+            <i class="mdui-list-item-icon nexmoefont icon-ellipsis"></i>
+            <div class="mdui-list-item-content">
+                额外内容
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+  
+  <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        <form id="search_form" action_e="https://cn.bing.com/search?q=https://xuyangyu233.github.io/" onsubmit="return search();">
+            <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+        </form>
+    </div>
+</div>
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">社交按钮</h3>
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://github.com/XuYangYu233/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+  
+  
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">标签云</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/masm/" style="font-size: 10px;">masm</a> <a href="/tags/re/" style="font-size: 20px;">re</a> <a href="/tags/try-try/" style="font-size: 10px;">try_try</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a>
+    </div>
+    
+  </div>
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2020 XuYangYu233
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://nexmoe.com/hexo-theme-nexmoe.html" target="_blank">Nexmoe</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+  </div>
+  <div id="nexmoe-content">
+    <div class="nexmoe-primary">
+        <div class="nexmoe-post">
+  
+      <div class="nexmoe-post-cover" style="padding-bottom: 41.68%;"> 
+          <img data-src="/imgs/Rinze_Morino.png" data-sizes="auto" alt="豆瓣影评信息爬取小结" class="lazyload">
+          <h1>豆瓣影评信息爬取小结</h1>
+      </div>
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2020年11月08日</a>
+    <a><i class="nexmoefont icon-areachart"></i>3.6k 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 19 分钟</a>
+</div>
+
+  <div class="nexmoe-post-right">
+    
+  </div>
+
+  <article>
+    <p>社会计算课的报告，虽然难度上不大，但挺花时间的</p>
+<a id="more"></a>
+
+<h2 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h2><ul>
+<li>1.对于第一部分影片票房的爬取，代码如下：</li>
+</ul>
+<pre><code class="Python"># coding=utf-8
+import requests
+import csv
+import re
+import os
+from bs4 import BeautifulSoup
+from aip import AipOcr
+from PIL import Image
+
+APP_ID = &#39;your APP_ID&#39;
+API_KEY = &#39;your API_KEY&#39;
+SECRET_KEY = &#39;your SECRET_KEY&#39;
+p_result = []
+headers = &#123;
+    &quot;Accept&quot;: &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9&quot;,
+    &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+    &quot;Accept-Language&quot;: &quot;zh-CN,zh;q=0.9,en-CN;q=0.8,en-US;q=0.7,en;q=0.6&quot;,
+    &quot;Cache-Control&quot;: &quot;max-age=0&quot;,
+    &quot;Connection&quot;: &quot;keep-alive&quot;,
+    &quot;Cookie&quot;: &quot;your Cookie&quot;,
+    &quot;Host&quot;: &quot;58921.com&quot;,
+    &quot;If-Modified-Since&quot;: &quot;Fri, 30 Oct 2020 06:00:00 GMT&quot;,
+    &quot;Referer&quot;: &quot;http://58921.com/alltime/2019&quot;,
+    &quot;Upgrade-Insecure-Requests&quot;: &quot;1&quot;,
+    &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36&quot;
+&#125;
+
+def hui_du(content):
+    with open(&quot;temp.png&quot;, &quot;wb&quot;) as f:
+        f.write(content)
+    img = Image.open(&#39;temp.png&#39;)
+    Img = img.convert(&#39;L&#39;)
+    Img.save(&quot;temp.png&quot;)
+    with open(&quot;temp.png&quot;, &quot;rb&quot;) as f:
+        content = f.read()
+    os.remove(&quot;temp.png&quot;)
+    return content
+
+def baidu_ocr(img_src, last_box):
+    while True:
+        try:
+            img = requests.get(img_src, headers=headers)
+        except:
+            continue
+        else:
+            break
+    img = hui_du(img.content)
+    client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
+    options = &#123;&#125;
+    options[&quot;language_type&quot;] = &quot;CHN_ENG&quot;
+    options[&quot;detect_direction&quot;] = &quot;false&quot;
+    options[&quot;detect_language&quot;] = &quot;false&quot;
+    options[&quot;probability&quot;] = &quot;false&quot;
+
+    limit = 0
+    pngjson = &#123;&#125;
+    pngstr = &quot;&quot;
+    while limit &lt; 100 and pngstr == &quot;&quot;:
+        limit += 1
+        pngstr = &quot;&quot;
+        pngjson = client.basicGeneral(img, options)
+        if &#39;words_result&#39; in pngjson:
+            for x in pngjson[&#39;words_result&#39;]:
+                pngstr = pngstr + x[&#39;words&#39;]
+
+    if ord(pngstr[-2]) &gt; 127:
+        pngstr = pngstr[:-1]
+    if &quot;,&quot; in pngstr:
+        pngstr = pngstr.replace(&quot;,&quot;, &quot;.&quot;)
+    boxoffice = eval(pngstr.replace(&#39;亿&#39;, &quot;*10**8&quot;).replace(&#39;万&#39;, &#39;*10**4&#39;))
+    if isinstance(boxoffice, tuple):
+        print(boxoffice)
+        raise Exception
+    while boxoffice &gt; eval(last_box):
+        boxoffice /= 10
+
+    return str(boxoffice)
+
+if __name__ == &#39;__main__&#39;:
+    last_box = &quot;49.34*10**8&quot;
+    for pages in range(27):
+        p_url = &quot;http://58921.com/alltime/2019?page=&#123;&#125;&quot;.format(pages)
+        p_response = requests.get(p_url, headers=headers)
+        p_response.encoding = &#39;utf-8&#39;
+
+        p_soup = BeautifulSoup(p_response.text, &#39;html.parser&#39;)
+        p_list = p_soup.find_all(&quot;td&quot;)
+        j = 0
+        for i in range(len(p_list) // 8):
+            while True:
+                if &quot;title&quot; in str(p_list[j]) and &quot;boxoffice&quot; not in str(p_list[j]):
+                    img_src = re.findall(r&#39;src=&quot;(.*?)&quot;&#39;, str(p_list[j+1]))[0]
+                    img_word = baidu_ocr(img_src, last_box)
+                    last_box = img_word
+                    print(&quot;&#123;&#125; &#123;:&lt;30d&#125; &#123;&#125;&quot;.format(p_list[j-2].text, int(float(img_word)), p_list[j].text))
+                    p_result.append([p_list[j-2].text, p_list[j].text, str(int(float(img_word)))])
+                    j += 1
+                    break
+                j += 1
+
+    with open(&quot;movie_info.csv&quot;, &#39;w&#39;) as f:
+        f_csv = csv.writer(f)
+        f_csv.writerow([&quot;pai_ming&quot;, &quot;pian_ming&quot;, &quot;box&quot;])
+        f_csv.writerows(p_result)</code></pre>
+<p>为了爬取2019年所有的影片票房，我选择对58921.com这个网站进行爬取。这个过程中比较难的一个点就是该网站上影片票房都是以图片的形式显示，因此不能直接爬下来。解决办法是将图片爬下来，然后使用百度的api进行ocr。但是百度的ocr不是非常靠谱，经常将图片中的小数点漏掉。我的解决方案是利用这个排行的特点，后一个影片的票房必定小于等于前一个影片的票房，而漏掉小数点只会使识别出来的票房更高，因此对其不断除以10直至不大于上一个票房为止。在ocr过程中的另一个点是原网站上显示票房的图片均为透明背景的png格式，因此可以使用pillow库将该图片先转化为灰度图，然后再进行ocr。<br>由于影片只有500多个，因此爬完后使用csv文件进行了存储。</p>
+<ul>
+<li>2.对于影片评论的信息收集，代码如下：</li>
+</ul>
+<pre><code class="Python"># coding=gbk
+import time
+import random
+import requests
+import re
+from bs4 import BeautifulSoup
+from pymongo import MongoClient
+
+def get_location(url, headers):
+    url = &quot;https://www.douban.com/people&#123;&#125;&quot;.format(url)
+    headers = &#123;
+        &quot;Host&quot;: &quot;www.douban.com&quot;,
+        &quot;User-Agent&quot;: &quot;Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0&quot;,
+        &quot;Accept&quot;: &quot;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&quot;,
+        &quot;Accept-Language&quot;: &quot;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&quot;,
+        &quot;Accept-Encoding&quot;: &quot;gzip, deflate&quot;,
+        &quot;Referer&quot;: r&quot;https://api.weibo.com/oauth2/authorize?state=7his4sDMixE%2521douban-web%2521https%253A//www.douban.com/people/161270752/&amp;redirect_uri=https%3A//accounts.douban.com/connect/sina_weibo/callbackaHR0cHM6Ly9hY2NvdW50cy5kb3ViYW4uY29tL3Bhc3Nwb3J0L2xvZ2luP3JlZGlyPWh0dHBzOi8vd3d3LmRvdWJhbi5jb20vcGVvcGxlLzE2MTI3MDc1Mi8%3D&amp;response_type=code&amp;client_id=1994016063&amp;scope=&amp;display=default&quot;,
+        &quot;Connection&quot;: &quot;close&quot;,
+        &quot;Cookie&quot;: r&#39;your Cookie&#39;,
+        &quot;Upgrade-Insecure-Requests&quot;: &quot;1&quot;,
+        &quot;Cache-Control&quot;: &quot;max-age=0&quot;
+    &#125;
+    response = requests.get(url, headers=headers)
+    with open(&quot;try.html&quot;, &quot;wb&quot;) as f:
+        f.write(response.content)
+    soup = BeautifulSoup(response.content.decode(&quot;utf-8&quot;), &#39;html.parser&#39;)
+    loc_loc = soup.find_all(&#39;div&#39;)
+    result = &quot;Unknown&quot;
+    for i in loc_loc[::-1]:
+        if &quot;user-info&quot; in str(i):
+            loc = re.findall(r&#39;&lt;a href=&quot;(.*?)&quot;&gt;(.*?)&lt;/a&gt;&#39;, str(i))
+            try:
+                result = loc[0][1]
+            except IndexError:
+                result = &quot;Unknown&quot;
+            break
+    return result
+
+movie_info = &#123;
+    1: [&quot;哪吒之魔童降世&quot;, &quot;26794435&quot;],
+    2: [&quot;流浪地球&quot;, &quot;26266893&quot;],
+    3: [&quot;复仇者联盟4：终局之战&quot;, &quot;26100958&quot;],
+    4: [&quot;我和我的祖国&quot;, &quot;32659890&quot;],
+    5: [&quot;中国机长&quot;, &quot;30295905&quot;],
+    6: [&quot;疯狂的外星人&quot;, &quot;25986662&quot;],
+    7: [&quot;飞驰人生&quot;, &quot;30163509&quot;],
+    8: [&quot;烈火英雄&quot;, &quot;30221757&quot;],
+    9: [&quot;少年的你&quot;, &quot;30166972&quot;],
+    10: [&quot;速度与激情：特别行动&quot;, &quot;27163278&quot;]
+&#125;
+
+client = MongoClient(&quot;localhost&quot;, 27017)
+db = client.movie
+
+for j in range(10):
+    collection = db[movie_info[j + 1][0]]
+    movie_id = movie_info[j + 1][1]
+
+    for i in range(0, 500, 20):
+        time.sleep(random.randint(50, 100) / 100)
+        url = &quot;https://movie.douban.com/subject/&#123;&#125;/comments?start=&#123;&#125;&amp;limit=20&amp;status=P&amp;sort=new_score&quot;.format(movie_id, i)
+        headers = &#123;
+            &quot;Cookie&quot;: r&#39;your Cookie&#39;,
+            &quot;Host&quot;: &quot;movie.douban.com&quot;,
+            &quot;Referer&quot;: &quot;https://movie.douban.com/subject/&#123;&#125;/comments?start=&#123;&#125;&amp;limit=20&amp;status=P&amp;sort=new_score&quot;.format(movie_id, ((i - 20) if i &gt;= 20 else 0)),
+            &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36&quot;,
+        &#125;
+
+        response = requests.get(url, headers=headers)
+        soup = BeautifulSoup(response.content.decode(&quot;utf-8&quot;), &#39;html.parser&#39;)
+        spans = soup.find_all(&#39;span&#39;)
+        peoples = re.findall(r&#39;href=&quot;https://www.douban.com/people(.*?)&quot;&gt;(.*?)&lt;/a&gt;&#39;, str(spans))
+        count = 0
+        for i in range(len(spans)):
+            if &#39;class=&quot;short&quot;&#39; not in str(spans[i]):
+                pass
+            else:
+                comments = &#123;&#125;
+                comments[&quot;user&quot;] = peoples[count][1]
+                comments[&quot;comment&quot;] = spans[i].text
+                stars = re.findall(r&#39;allstar(.*?) rating&#39;, str(spans[i - 2]))
+                comments[&quot;stars&quot;] = str(int(stars[0]) // 10) if stars != [] else &quot;-1&quot;
+                comments[&quot;location&quot;] = get_location(peoples[count][0], headers)
+                print(comments)
+                collection.insert_one(comments)
+                count += 1
+    print(&quot;&#123;&#125; end&quot;.format(movie_info[j + 1][0]))</code></pre>
+<p>由于豆瓣的短评界面并未像长评一样使用ajax技术，因此可以直接爬取整个网页进行解析。每个界面20条评论，每条评论有给星数，影评，用户名，用户主页链接等信息，而用户主页中又有常居地的信息。爬取完成后，我使用了MongoDB数据库对信息进行了存储，但其实5000条数据完全没有比要用数据库存储。</p>
+<ul>
+<li>3.情感分析部分的代码如下：</li>
+</ul>
+<pre><code class="Python">import requests
+import json
+import time
+import pickle
+from pymongo import MongoClient
+
+ak = &#39;your API_KEY&#39;
+sk = &#39;your SECRET_KEY&#39;
+
+host = &#39;https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&amp;client_id=&#123;&#125;&amp;client_secret=&#123;&#125;&#39;.format(ak, sk)
+res = requests.post(host)
+res = json.loads(res.text)
+token = res[&quot;access_token&quot;]
+url = &#39;https://aip.baidubce.com/rpc/2.0/nlp/v1/sentiment_classify?charset=UTF-8&amp;access_token=&#123;&#125;&#39;.format(token)
+
+movie_info = [
+    &quot;哪吒之魔童降世&quot;,
+    &quot;流浪地球&quot;,
+    &quot;复仇者联盟4：终局之战&quot;,
+    &quot;我和我的祖国&quot;,
+    &quot;中国机长&quot;,
+    &quot;疯狂的外星人&quot;,
+    &quot;飞驰人生&quot;,
+    &quot;烈火英雄&quot;,
+    &quot;少年的你&quot;,
+    &quot;速度与激情：特别行动&quot;
+]
+
+client = MongoClient(&quot;localhost&quot;, 27017)
+db = client.movie
+
+score = []
+
+for j in movie_info:
+    collection = db[j]
+    senti_dict = &#123;0: 0, 1: 0, 2: 0&#125;
+    count = 0
+    for i in collection.find():
+        time.sleep(0.05)
+        data = &#123;
+            &#39;text&#39;: i[&quot;comment&quot;]
+        &#125;
+        data = json.dumps(data)
+        res = &quot;error_msg&quot;
+        while &quot;error_msg&quot; in res:
+            try:
+                res = requests.post(url, data=data).text
+            except:
+                res = &quot;error_msg&quot;
+        senti = eval(res)[&quot;items&quot;][0][&quot;sentiment&quot;]
+        count += 1
+        print(count / 500, end=&quot;\r&quot;)
+        senti_dict[senti] += 1
+    print(&quot;\n&quot; + j + &quot;: &quot; + str(senti_dict))
+    score.append(senti_dict)
+
+with open(&quot;senti_dict.pkl&quot;, &quot;wb&quot;) as f:
+    pickle.dump(score, f)</code></pre>
+<p>由于时间上的紧迫，我直接使用了百度的api进行情感分析，尽管准确度稍有不足，但仍具有一定的参考性。分析完成后，将十个字典放入一个列表中，用pickle模块进行了序列化存储，这样可以方便可视化的时候进行直接读取。</p>
+<ul>
+<li>4.影片票房部分的可视化的代码如下：</li>
+</ul>
+<pre><code class="Python">import matplotlib.pyplot as plt
+import csv
+
+plt.rcParams[&#39;font.sans-serif&#39;] = [&#39;SimHei&#39;]
+
+movie_info = [
+    &quot;哪吒之魔童降世&quot;,
+    &quot;流浪地球&quot;,
+    &quot;复仇者联盟4：终局之战&quot;,
+    &quot;我和我的祖国&quot;,
+    &quot;中国机长&quot;,
+    &quot;疯狂的外星人&quot;,
+    &quot;飞驰人生&quot;,
+    &quot;烈火英雄&quot;,
+    &quot;少年的你&quot;,
+    &quot;速度与激情：特别行动&quot;
+]
+
+boxes = []
+highest_ten = &#123;&#125;
+with open(&quot;movie_info.csv&quot;, &quot;r&quot;) as f:
+    f_csv = csv.reader(f)
+    count = -1
+    for i in f_csv:
+        i = eval(str(i))
+        count += 1
+        if count == 0 or count % 2 == 1:
+            continue
+        elif count &lt;= 20:
+            highest_ten[i[1]] = i[2]
+        boxes.append(int(i[2]))
+
+fig, axj = plt.subplots(nrows=1, ncols=2, figsize=(15, 6), dpi=100)
+axes = axj.flatten()
+axes[0].bar(range(len(boxes)), boxes, color=&#39;blue&#39;)
+axes[0].set_xlabel(&quot;票房排名&quot;)
+axes[0].set_ylabel(&quot;票房&quot;)
+axes[0].set_title(&quot;所有影片票房&quot;)
+
+axes[1].bar(range(10), boxes[:10], color=&#39;red&#39;)
+for a, b in zip(range(10), boxes[:10]):
+    axes[1].text(a, b + 0.05, &#39;%.0f&#39; % b, ha=&#39;center&#39;, va=&#39;bottom&#39;, fontsize=8)
+axes[1].set_xlabel(&quot;前十影片&quot;)
+axes[1].set_ylabel(&quot;票房&quot;)
+axes[1].set_title(&quot;票房排名前十的影片&quot;)
+
+table = []
+for i in range(10):
+    table.append([movie_info[i], boxes[i]])
+axes[1].table(table, colLabels=[&quot;片名&quot;, &quot;票房&quot;], colWidths=[0.2]*2, loc=&quot;best&quot;)
+
+plt.show()</code></pre>
+<p>该部分使用了matplotlib库进行可视化，结果以条形图的形式展现，可以直观地看出2019年影片票房的分布规律。</p>
+<ul>
+<li>5.影评感情倾向部分的可视化的代码：</li>
+</ul>
+<pre><code class="Python">import pickle
+import matplotlib.pyplot as plt
+
+plt.rcParams[&#39;font.sans-serif&#39;] = [&#39;SimHei&#39;]
+
+with open(&quot;senti_dict.pkl&quot;, &quot;rb&quot;) as f:
+    senti_dict = pickle.load(f)
+
+movie_info = [
+    &quot;哪吒之魔童降世&quot;,
+    &quot;流浪地球&quot;,
+    &quot;复仇者联盟4：终局之战&quot;,
+    &quot;我和我的祖国&quot;,
+    &quot;中国机长&quot;,
+    &quot;疯狂的外星人&quot;,
+    &quot;飞驰人生&quot;,
+    &quot;烈火英雄&quot;,
+    &quot;少年的你&quot;,
+    &quot;速度与激情：特别行动&quot;
+]
+
+fig, axj = plt.subplots(nrows=2, ncols=5, figsize=(15, 6), dpi=100)
+axes = axj.flatten()
+for i in range(10):
+    senti = senti_dict[i]
+    labels = [&quot;消极&quot;, &quot;中性&quot;, &quot;积极&quot;]
+    sizes = senti.values()
+    explode = (0, 0, 0)
+
+    axes[i].pie(
+        sizes,
+        explode=explode,
+        labels=labels,
+        autopct=&#39;%1.1f%%&#39;,
+        shadow=False,
+        startangle=90
+    )
+    axes[i].set_title(movie_info[i])
+plt.show()</code></pre>
+<p>使用了10个饼状图，可以直观地表现出各种感情所占的比例。</p>
+<ul>
+<li>6.影评给星数的可视化的代码：</li>
+</ul>
+<pre><code class="Python">import matplotlib.pyplot as plt
+from pymongo import MongoClient
+
+plt.rcParams[&#39;font.sans-serif&#39;] = [&#39;SimHei&#39;]
+
+client = MongoClient(&quot;localhost&quot;, 27017)
+db = client.movie
+
+movie_info = [
+    &quot;哪吒之魔童降世&quot;,
+    &quot;流浪地球&quot;,
+    &quot;复仇者联盟4：终局之战&quot;,
+    &quot;我和我的祖国&quot;,
+    &quot;中国机长&quot;,
+    &quot;疯狂的外星人&quot;,
+    &quot;飞驰人生&quot;,
+    &quot;烈火英雄&quot;,
+    &quot;少年的你&quot;,
+    &quot;速度与激情：特别行动&quot;
+]
+
+fig, axj = plt.subplots(nrows=2, ncols=5, figsize=(15, 6), dpi=110)
+axes = axj.flatten()
+for j in movie_info:
+    collection = db[j]
+    stars = []
+    for i in collection.find():
+        if i[&quot;stars&quot;] == &quot;-1&quot;:
+            continue
+        else:
+            stars.append(int(i[&quot;stars&quot;]))
+
+    axes[movie_info.index(j)].hist(
+        stars,
+        bins=5,
+        density=True,
+        histtype=&quot;bar&quot;,
+        stacked=True,
+        edgecolor=&quot;black&quot;
+    )
+    axes[movie_info.index(j)].set_title(j)
+
+plt.show()</code></pre>
+<p>使用直方图进行展示，可以清晰地看出各个给星数之间的数量差别，同时豆瓣自己的给星数展示也是使用的类似的图表。</p>
+<ul>
+<li>7.影评人常居地的可视化的代码：</li>
+</ul>
+<pre><code class="Python">import matplotlib.pyplot as plt
+from pymongo import MongoClient
+
+plt.rcParams[&#39;font.sans-serif&#39;] = [&#39;SimHei&#39;]
+
+client = MongoClient(&quot;localhost&quot;, 27017)
+db = client.movie
+
+movie_info = [
+    &quot;哪吒之魔童降世&quot;,
+    &quot;流浪地球&quot;,
+    &quot;复仇者联盟4：终局之战&quot;,
+    &quot;我和我的祖国&quot;,
+    &quot;中国机长&quot;,
+    &quot;疯狂的外星人&quot;,
+    &quot;飞驰人生&quot;,
+    &quot;烈火英雄&quot;,
+    &quot;少年的你&quot;,
+    &quot;速度与激情：特别行动&quot;
+]
+
+def check_hanzi(stra: str):
+    english_exists = False
+    for i in stra:
+        if ord(i) &lt;= 127:
+            english_exists = True
+    return english_exists
+
+fig, axj = plt.subplots(nrows=2, ncols=5, figsize=(15, 6), dpi=110)
+axes = axj.flatten()
+for j in movie_info:
+    collection = db[j]
+    loc_dict = &#123;&#125;
+    for i in collection.find():
+        if i[&quot;location&quot;] not in loc_dict:
+            loc_dict[i[&quot;location&quot;]] = 1
+        else:
+            loc_dict[i[&quot;location&quot;]] += 1
+
+    data = &#123;&#125;
+    for i in loc_dict:
+        if not check_hanzi(i) or i == &quot;Unknown&quot;:
+            if loc_dict[i] &gt; 13:
+                data[i] = loc_dict[i]
+            elif &quot;国内其它地区&quot; in data:
+                data[&quot;国内其它地区&quot;] += 1
+            else:
+                data[&quot;国内其它地区&quot;] = 1
+        else:
+            if &quot;国外&quot; in data:
+                data[&quot;国外&quot;] += 1
+            else:
+                data[&quot;国外&quot;] = 1
+
+    data = sorted(data.items(), key=lambda kv: (kv[1], kv[0]))
+    labels = []
+    sizes = []
+    for i in data:
+        labels.append(i[0])
+        sizes.append(i[1])
+    labels.reverse()
+    sizes.reverse()
+
+    axes[movie_info.index(j)].pie(
+        sizes,
+        labels=labels,
+        autopct=&#39;%1.1f%%&#39;,
+        shadow=False,
+        startangle=90
+    )
+    axes[movie_info.index(j)].set_title(j)
+
+plt.show()</code></pre>
+<p>该数据的处理部分较为复杂，因为常居地的可选项实在是太多，如果不做任何处理直接用饼状图表现出来，那么图中将出现大量的文字重叠在一起的情况。因此我参考示例中的处理，将国外的合并为一类，将国内的数量较少的地方合并为一类，最终得出了较为直观的饼状图。</p>
+<h2 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h2><p><a target="_blank" rel="noopener" href="https://imgchr.com/i/BTsROK"><img data-sizes="auto" data-src="https://s1.ax1x.com/2020/11/08/BTsROK.png" alt="BTsROK.png" class="lazyload"></a><br><a target="_blank" rel="noopener" href="https://imgchr.com/i/BTsgQx"><img data-sizes="auto" data-src="https://s1.ax1x.com/2020/11/08/BTsgQx.png" alt="BTsgQx.png" class="lazyload"></a><br><a target="_blank" rel="noopener" href="https://imgchr.com/i/BTyM11"><img data-sizes="auto" data-src="https://s1.ax1x.com/2020/11/08/BTyM11.png" alt="BTyM11.png" class="lazyload"></a><br><a target="_blank" rel="noopener" href="https://imgchr.com/i/BTyKpR"><img data-sizes="auto" data-src="https://s1.ax1x.com/2020/11/08/BTyKpR.png" alt="BTyKpR.png" class="lazyload"></a></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>流浪地球的给星数还没哪吒高就nm离谱，当初影院看的哪吒差点没把我尬晕，可能是已经过了哪吒的主要受众群体的年纪了吧</p>
+<p>复联4的五星这么多是我没想到的，我印象中的豆瓣用户群体都挺鄙夷这种视觉特效轰炸的爆米花片的，可能是时代变了吧</p>
+<p>常居地这个部分，人均北上广深+国外，只能说不出我所料</p>
+<p>其它的，吐槽一下百度的情感分析的api，看个乐就好，真要分析还是用个什么snownpl自己训练吧</p>
+
+  </article>
+
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a>
+    
+</div>
+
+  <div class="nexmoe-post-footer">
+    
+      
+  <div class="nexmoe-post-copyright">
+    <strong>本文作者：</strong>XuYangYu233<br>
+    <strong>本文链接：</strong><a href="http://xuyangyu233.github.io/2020/11/08/spider-try/" title="http:&#x2F;&#x2F;xuyangyu233.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;spider-try&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;xuyangyu233.github.io&#x2F;2020&#x2F;11&#x2F;08&#x2F;spider-try&#x2F;</a><br>
+    
+      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+    
+  </div>
+
+
+    
+    <section class="nexmoe-comment">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81MTcxNi8yODE5Nw==">
+    <script id="livere-comment-js">
+    (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+       if (typeof LivereTower === 'function') { return; }
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+</div>
+</section>
+  </div>
+</div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!--<script src="/js/app.js?v=1604851543907"></script>-->
+
+
+    <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
+
+
+
+  
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?562deab756be569cd4b29893e45466a1';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
