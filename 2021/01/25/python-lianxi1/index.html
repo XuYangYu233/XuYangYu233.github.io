@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+  
+  <title>python技巧1 - XYY&#39;s blog</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="this_is_description">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  
+  
+
+  <link rel="shortcut icon" href="/imgs/remote1.png" type="image/png" />
+  <meta name="description" content="一点点python编程方面的小技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python技巧1">
+<meta property="og:url" content="http://xuyangyu233.github.io/2021/01/25/python-lianxi1/index.html">
+<meta property="og:site_name" content="XYY&#39;s blog">
+<meta property="og:description" content="一点点python编程方面的小技巧">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://xuyangyu233.github.io/imgs/gif_try2.gif">
+<meta property="article:published_time" content="2021-01-25T14:46:15.000Z">
+<meta property="article:modified_time" content="2021-01-25T16:29:29.732Z">
+<meta property="article:author" content="XuYangYu233">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://xuyangyu233.github.io/imgs/gif_try2.gif">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
+  
+  <!--<link rel="stylesheet" href="/css/style.css?v=1611592177578">-->
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+  
+  <div id="nexmoe-background">
+    <div class="nexmoe-bg" style="background-image: url(/imgs/nssh.jpg)"></div>
+    <div class="mdui-appbar mdui-shadow-0">
+      <div class="mdui-toolbar">
+        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+        <div class="mdui-toolbar-spacer"></div>
+        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+        <a href="/" title="XuYangYu233" class="mdui-btn mdui-btn-icon"><img src="/imgs/avater.jpg" alt="XuYangYu233"></a>
+       </div>
+    </div>
+  </div>
+  <div id="nexmoe-header">
+      <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="XuYangYu233">
+            <img src="/imgs/avater.jpg" alt="XuYangYu233" alt="XuYangYu233">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>8</div>
+        <div><span>标签</span>5</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about.html" title="关于博客">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博客
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/extra.html" title="额外内容">
+            <i class="mdui-list-item-icon nexmoefont icon-ellipsis"></i>
+            <div class="mdui-list-item-content">
+                额外内容
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+  
+  <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        <form id="search_form" action_e="https://cn.bing.com/search?q=https://xuyangyu233.github.io/" onsubmit="return search();">
+            <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+        </form>
+    </div>
+</div>
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">社交按钮</h3>
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://github.com/XuYangYu233/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+  
+  
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">标签云</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/masm/" style="font-size: 10px;">masm</a> <a href="/tags/re/" style="font-size: 20px;">re</a> <a href="/tags/try-try/" style="font-size: 10px;">try_try</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a>
+    </div>
+    
+  </div>
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2021 XuYangYu233
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://nexmoe.com/hexo-theme-nexmoe.html" target="_blank">Nexmoe</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+  </div>
+  <div id="nexmoe-content">
+    <div class="nexmoe-primary">
+        <div class="nexmoe-post">
+  
+      <div class="nexmoe-post-cover" style="padding-bottom: 48.333333333333336%;"> 
+          <img data-src="/imgs/illust_77225492_20200413_230353.jpg" data-sizes="auto" alt="python技巧1" class="lazyload">
+          <h1>python技巧1</h1>
+      </div>
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2021年01月25日</a>
+    <a><i class="nexmoefont icon-areachart"></i>1.2k 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
+</div>
+
+  <div class="nexmoe-post-right">
+    
+  </div>
+
+  <article>
+    <p>一点点python编程方面的小技巧</p>
+<a id="more"></a>
+
+<h2 id="1-使用效果预览"><a href="#1-使用效果预览" class="headerlink" title="1. 使用效果预览"></a>1. 使用效果预览</h2><p><a href="/imgs/gif_try2.gif"><img data-sizes="auto" data-src="/imgs/gif_try2.gif" alt="gif_try2.gif" class="lazyload"></a></p>
+<p>背景图片作者pixiv id=18075074，人物是b站2020拜年祭网页上弄下来的，gif没做好可能脸看着有点扁。。。</p>
+<h2 id="2-缘由"><a href="#2-缘由" class="headerlink" title="2. 缘由"></a>2. 缘由</h2><p>pygame是一款轻量级的游戏引擎，其主要目的就是制作一些看起来比较廉价的2d游戏，以供python新手练手，以至于在很多方面其并不完善。而对于大部分avg来说，渐变式的转场是其标配。pygame显然不会专门为此做一个接口，故这个问题需要开发者自己解决。</p>
+<p>pygame由于其自身特点，对于透明度的支持都不太方便，因此我们对于其原生的显示透明度图片的函数还要再加一点东西打包成新函数:</p>
+<pre><code class="Python">
+def blit_alpha(target, source, location, opacity):
+    x = location[0]
+    y = location[1]
+    temp = pygame.Surface((source.get_width(), source.get_height())).convert()
+    temp.blit(target, (-x, -y))
+    temp.blit(source, (0, 0))
+    temp.set_alpha(opacity)
+    target.blit(temp, location)</code></pre>
+<p>因为这不是重点，我们在此就不解释里面这些参数的意义了，此处的重点是这个函数是在一帧中绘制一个固定透明度的图片，想要形成开头那种渐变的效果，我们就需要随着帧数的增加缓慢增大或减小图片的透明度，而这正是问题的所在。</p>
+<p>为了保证代码的可读性，我们需要把整个切换背景的过程写成一个函数或方法。而由于这个特性，“随着帧数进行缓慢变化”这个要点就会变得比较困难。举个例子，当游戏主循环接收到要切换背景的信号后，会调用切换背景的函数，而该函数内部有一个循环，用来不断调整透明度，而此时游戏主循环就会阻塞在这里。往抽象了说，就是要解决一个双循环同步进行的问题。</p>
+<p>一般来说这个问题使用一个双线程会比较好解决，尤其是带线程锁的双线程。但pygame毕竟不是一般的游戏引擎，如果在这个地方使用双线程会出现显著掉帧，视觉上来说就是透明度变化的时候一卡一卡的，观感属实不行。</p>
+<p>为了解决这个问题，我们就需要使用一个Python特性</p>
+<h2 id="3-解决方案"><a href="#3-解决方案" class="headerlink" title="3. 解决方案"></a>3. 解决方案</h2><p>先上代码:</p>
+<pre><code class="Python">def switch_bg_proc(screen, after, before):
+    global ticks
+    ticks = 0
+    while ticks &lt; 255:
+        blit_alpha(screen, before, (0, 0), 260 - ticks)
+        blit_alpha(screen, after, (0, 0), ticks)
+        yield
+    blit_alpha(screen, after, (0, 0), 256)
+    ticks = 0
+
+def chg_bg(screen, msg, before, sbp):
+    global ticks, sbp_flag
+    after = pygame.image.load(&#39;imgs/&#123;&#125;&#39;.format(msg)).convert()
+    if sbp_flag:
+        ticks = 254
+    else:
+        sbp = switch_bg_proc(screen, after, before)
+        sbp_flag = True
+
+    return after, sbp</code></pre>
+<p>主循环部分:</p>
+<pre><code class="Python">    while True:
+        for in_event in pygame.event.get():
+            if in_event.type == pygame.QUIT:        # 退出
+                pygame.display.quit()
+                return
+            elif in_event.type == pygame.MOUSEBUTTONDOWN:       # 左键点击
+                if sbp_flag:            # 渐变转场过程中如果玩家按下鼠标左键，则快速转场完成
+                    ticks = 254
+                    continue
+
+        # ----Snip---- 省略
+
+                name, msg, game_event = read_dialog()       # 读取游戏事件
+                if game_event == 0:                  # 判断游戏事件
+                    chat.update(name, msg)
+                elif game_event == -1:
+                    pygame.event.post(pygame.event.Event(pygame.QUIT))
+                elif game_event == 1:
+                    pass
+                elif game_event == 2:
+                    background, sbp = chg_bg(screen, msg, background, sbp)
+
+        # ----Snip---- 省略
+
+        if sbp_flag:
+            ticks += 5
+            try:
+                next(sbp)
+            except StopIteration:
+                sbp_flag = False
+        else:
+            blit_alpha(screen, background, (0, 0), 256)
+
+        # ----Snip---- 省略</code></pre>
+<p>部分解释一下，ticks和sbp_flag是全局变量，前者用来记录透明度的变化，其随帧数而变化，后者是switch_bg_proc的缩写，用来判断是否处于背景切换的过程中。</p>
+<p>可以看到，在switch_bg_proc函数的循环中存在一个yield，这使其变成了一个生成器，在chg_bg函数中“调用”了该函数，实际是产生了一个生成器对象。</p>
+<p>简单来说，就是在读取到转场的信号的时候调用chg_bg函数，该函数根据传入的图片位置信息生成一个生成器对象sbp，将其返回至主函数，主函数在循环的过程中根据sbp_flag来判断是否进行转场，若是，则next(sbp)，使switch_bg_proc函数内部的循环进行一轮，然后再次停在yield的地方，等待下一次的next(sbp)，由此确保了其随主循环同步进行</p>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h2><p>平时写一些小的脚本的时候基本没碰过yield，当时学的时候也是一脸懵逼。不过由这个小例子可以了解到一些yield以及python生成器的妙用，即在涉及到两个循环同步进行的时候可以用这个方法来避免一些繁琐的多线程操作，这也再次提醒了我python和C/C++以及其它语言在一些细节上可能会有各自完全不相同的解决办法</p>
+
+  </article>
+
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Python/" rel="tag">Python</a>
+    
+</div>
+
+  <div class="nexmoe-post-footer">
+    
+      
+  <div class="nexmoe-post-copyright">
+    <strong>本文作者：</strong>XuYangYu233<br>
+    <strong>本文链接：</strong><a href="http://xuyangyu233.github.io/2021/01/25/python-lianxi1/" title="http:&#x2F;&#x2F;xuyangyu233.github.io&#x2F;2021&#x2F;01&#x2F;25&#x2F;python-lianxi1&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;xuyangyu233.github.io&#x2F;2021&#x2F;01&#x2F;25&#x2F;python-lianxi1&#x2F;</a><br>
+    
+      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+    
+  </div>
+
+
+    
+    <section class="nexmoe-comment">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81MTcxNi8yODE5Nw==">
+    <script id="livere-comment-js">
+    (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+       if (typeof LivereTower === 'function') { return; }
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+</div>
+</section>
+  </div>
+</div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!--<script src="/js/app.js?v=1611592177580"></script>-->
+
+
+    <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
+
+
+
+  
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?562deab756be569cd4b29893e45466a1';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
