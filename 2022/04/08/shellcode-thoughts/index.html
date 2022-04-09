@@ -4,7 +4,7 @@
 
 <head>
   
-  <title>����������ȫ�γ�ʵ���һ�㷴˼ - XYY&#39;s blog</title>
+  <title>关于软件安全课程实验的一点反思 - XYY&#39;s blog</title>
   <meta charset="UTF-8">
   <meta name="description" content="this_is_description">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -12,21 +12,21 @@
   
 
   <link rel="shortcut icon" href="/imgs/remote1.png" type="image/png" />
-  <meta name="description" content="����̫���ˣ���˼��˼">
+  <meta name="description" content="做的太差了，反思反思">
 <meta property="og:type" content="article">
-<meta property="og:title" content="����������ȫ�γ�ʵ���һ�㷴˼">
+<meta property="og:title" content="关于软件安全课程实验的一点反思">
 <meta property="og:url" content="http://xuyangyu233.github.io/2022/04/08/shellcode-thoughts/index.html">
 <meta property="og:site_name" content="XYY&#39;s blog">
-<meta property="og:description" content="����̫���ˣ���˼��˼">
+<meta property="og:description" content="做的太差了，反思反思">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-08T13:49:09.000Z">
-<meta property="article:modified_time" content="2022-04-09T08:44:24.663Z">
+<meta property="article:modified_time" content="2022-04-09T08:46:38.681Z">
 <meta property="article:author" content="XuYangYu233">
 <meta property="article:tag" content="re">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1649493888090">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1649494048010">-->
 
   
 <meta name="generator" content="Hexo 5.2.0"></head>
@@ -149,15 +149,15 @@
         <div class="nexmoe-post">
   
       <div class="nexmoe-post-cover" style="padding-bottom: 56.25%;"> 
-          <img data-src="/imgs/nssh.jpg" data-sizes="auto" alt="����������ȫ�γ�ʵ���һ�㷴˼" class="lazyload">
-          <h1>����������ȫ�γ�ʵ���һ�㷴˼</h1>
+          <img data-src="/imgs/nssh.jpg" data-sizes="auto" alt="关于软件安全课程实验的一点反思" class="lazyload">
+          <h1>关于软件安全课程实验的一点反思</h1>
       </div>
   
   
   <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
     <a><i class="nexmoefont icon-calendar-fill"></i>2022年04月08日</a>
-    <a><i class="nexmoefont icon-areachart"></i>437 字</a>
-    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
+    <a><i class="nexmoefont icon-areachart"></i>1.9k 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 8 分钟</a>
 </div>
 
   <div class="nexmoe-post-right">
@@ -165,33 +165,33 @@
   </div>
 
   <article>
-    <p>����̫���ˣ���˼��˼</p>
+    <p>做的太差了，反思反思</p>
 <a id="more"></a>
 
-<h2 id="j����Ҫ"><a href="#j����Ҫ" class="headerlink" title="ǰ����Ҫ"></a>ǰ����Ҫ</h2><p>Ҫ�󣺱�дһ��PE�ļ���Ⱦ����infect.exe������Ҫ�����£�</p>
+<h2 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h2><p>要求：编写一个PE文件传染程序infect.exe，功能要求如下：</p>
 <ol>
-<li>infect.exe���к���ͬĿ¼�µ�ĳ��Windows .exe�����³�Ŀ����򣬽�����һ���ⰲװ����ɫ�����Է�����ԣ���ֲ�롰�����غɡ�����.</li>
-<li>infect.exe�����ظ���ȾĿ�����.</li>
-<li>Ŀ�����ֲ�롰�����غɡ��󣬾߱�������Ϊ��һ��ִ�У��ͻ���������Ŀ¼д��һ��txt�ļ����ļ���Ϊ��ѧ��-����.txt���ļ��������⡣</li>
+<li>infect.exe运行后，向同目录下的某个Windows .exe程序（下称目标程序，建议找一个免安装的绿色程序，以方便测试），植入“病毒载荷”代码.</li>
+<li>infect.exe不能重复传染目标程序.</li>
+<li>目标程序被植入“病毒载荷”后，具备如下行为：一旦执行，就会向其所在目录写入一个txt文件，文件名为：学号-姓名.txt，文件内容任意。</li>
 </ol>
-<p>���Եģ����������˼·֮һ���ǽ����½ڣ��½��з���shellcode���޸�ԭ������ڲ���shellcodeβ������ԭ��ڣ�����shellcode����Ҫ���еĲ�������ʹ��kernel32.dll�е�CreateFileW��������ָ���ļ���Ȼ��ر��ļ������</p>
-<p>��������Ҫ��˼����Ҫ��shellcode�ⲿ�ֵ�����</p>
-<h2 id="����k���"><a href="#����k���" class="headerlink" title="����ķ���"></a>����ķ���</h2><p>ʹ��c����дһ�����º��������п��ַ�����w�е�������ָ�����ļ�����Ȼ��򵥵ص�����һ��CreateFileW</p>
+<p>明显的，整个程序的思路之一就是建立新节，新节中放入shellcode，修改原程序入口并让shellcode尾部跳回原入口，而在shellcode中需要进行的操作则是使用kernel32.dll中的CreateFileW函数创建指定文件，然后关闭文件句柄。</p>
+<p>接下来需要反思的主要是shellcode这部分的内容</p>
+<h2 id="错误的方法"><a href="#错误的方法" class="headerlink" title="错误的方法"></a>错误的方法</h2><p>使用c语言写一个以下函数，其中宽字符数组w中的内容是指定的文件名，然后简单地调用了一个CreateFileW</p>
 <pre><code class="c">void payload() &#123;
     WCHAR w[64] = &#123;50, 48, 49, 57, 0&#125;;
     LPCWSTR filename = w;
     CreateFileW(filename, (GENERIC_READ | GENERIC_WRITE), 7, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 &#125;</code></pre>
-<p>������ɺ󣬽�exe����IDA�ж�λ�ú��������ò�����ʮ�������ֽڵ���ʽ���������Ƶ�shellcodeֲ��ĳ����С��ص��ע����CreateFileWʱƫ�Ƶ�λ�ã���ֲ������в�ѯĿ�����ĵ������<strong>�ҵ��������CreateFileW��λ��</strong>������µ�ƫ�Ʋ�����֮���������ƺ�û����</p>
-<h2 id="�������ˣ�"><a href="#�������ˣ�" class="headerlink" title="�������ˣ�"></a>�������ˣ�</h2><p>������һ��������ģ����ǹ��������ļ��ľ����</p>
-<p>�ڽ��и�ʵ��ʱ�����ַ���û�г������⣬ԭ����ʵ����ʹ�õı���Ⱦ���������Լ���cд��һ���ܼ򵥵ĳ��򡣵��ǵ�����ʹ�����ǵĸ�Ⱦ����ȥ��ȾһЩ�����ϳ�����PE�ļ�ʱ������ȫ�в�ͨ�ˡ�������������ЩPE�У��������ӵĿ�ͺ�����װ���ڴ�ʱ������<strong>�ض�λ</strong>��������ʵ�ʵ�ַ���侲̬��ַ��һ��</p>
-<p>ΪʲôҪPE�ض�λ: ������������һ��PE�ļ�ʱ������������ļ�ִ��ʱ�ᱻװ�ص�Ĭ�ϵĻ���ַ�������Ұ�code��data����ص�ַ��д��PE�ļ� �С����װ��ʱ��Ĭ�ϵ�ֵ��Ϊ����ַװ�룬����Ҫ�ض�λ���������ִ���ļ���װ�ص������ڴ����һ����ַ�����������Ǽǵ��Ǹ���ַ���Ǵ���ģ���ʱ����Ҫ���ض�λ������������PE�ļ��У�������������Ϊһ�飬�á�.reloc����ʾ��</p>
-<p>��װ���ڴ�ʱ��ÿ��EXE���ᱻ����һ���������ڴ�ռ䣬������������˶��DLL�����ڶ��DLL�ļ�ȫ��ʹ������EXE�ļ��ĵ�ַ�ռ䣬���ܱ�֤װ���ַû�б�����DLLʹ�ã��ʴ�ʱ����Ҫ�ض�λ�����������ַ������ͻ�������������س���ʱ�����������ΪĳPE����Ļ�ַ��������Ĭ�ϼ�¼��ImageBase����ͬ����ô�ó����ļ�������Ϻ����Ҫ�����ض�λ���е�������Ҫ�����ĵ�ַ���������������Ļ�ַ�͸ó����ļ��м�¼Ĭ�ϵ�ImageBase��ͬ������Ҫ�������ض�λ�����ڸ�DLLҲ��û��Ч�õġ�</p>
-<p>ʵ�ʼ��飬���ǽ���ͬ��PE�ļ�����010editor���й۲죬���Լ�д��exe��ֻ������һ��DLL����kernel32����Ȼ�����õ��ض�λ�����ض�λ���е�block�����������ֵҲ����ռλʹ�ã����������4λȫΪA�����ݹ����4λΪ3ʱ�Ż�����ض�λ</p>
-<p><del>�˴�Ӧ��ͼ��Ȼ���ұȽ���</del></p>
-<p>���۲���һ����Ϊ���ӵ�PE�ļ�����������ʮ���DLL���ض�λ����СΪ69090h����������ʵ���ж�ʧ��</p>
-<h2 id="�������"><a href="#�������" class="headerlink" title="�������"></a>�������</h2><p>��������˵�����ǿ������ض�λ��������һ����Ӧ�ṹ�壬����֪���������ǵ�shellcode��Ҳ����һ��λ����Ҫ�ض�λ������Ҳ����һ�ַ������������ڴ��ж�̬��ȡCreateFileW�ĵ�ַ������������ѡ��ǰһ�ַ���</p>
-<p>������Ҫ�ڸ�Ⱦ����������һ�������޸��ض�λ�������ݣ�</p>
+<p>编译完成后，将exe放入IDA中定位该函数，将该部分以十六进制字节的形式导出，复制到shellcode植入的程序中。重点关注调用CreateFileW时偏移的位置，在植入程序中查询目标程序的导入表并<strong>找到所导入的CreateFileW的位置</strong>，算出新的偏移并覆盖之。听起来似乎没问题</p>
+<h2 id="错在哪了？"><a href="#错在哪了？" class="headerlink" title="错在哪了？"></a>错在哪了？</h2><p>首先是一个最基本的，忘记关所创建文件的句柄了</p>
+<p>在进行该实验时，这种方法没有出现问题，原因是实验中使用的被感染程序是我自己用c写的一个很简单的程序。但是当尝试使用我们的感染程序去感染一些市面上常见的PE文件时，就完全行不通了。这是由于在这些PE中，其所链接的库和函数在装入内存时发生了<strong>重定位</strong>，导致其实际地址与其静态地址不一致</p>
+<p>为什么要PE重定位: 当链接器生成一个PE文件时，它假设这个文件执行时会被装载到默认的基地址处，并且把code和data的相关地址都写入PE文件 中。如果装入时按默认的值作为基地址装入，则不需要重定位。但如果可执行文件被装载到虚拟内存的另一个地址，链接器所登记的那个地址就是错误的，这时就需要用重定位表来调整。在PE文件中，它往往单独分为一块，用”.reloc”表示。</p>
+<p>在装入内存时，每个EXE都会被分配一个独立的内存空间，而如果其链接了多个DLL。由于多个DLL文件全部使用宿主EXE文件的地址空间，不能保证装入地址没有被其他DLL使用，故此时便需要重定位机制来避免地址发生冲突。当加载器加载程序时，如果加载器为某PE分配的基址与其自身默认记录的ImageBase不相同，那么该程序文件加载完毕后就需要修正重定位表中的所有需要修正的地址。如果加载器分配的基址和该程序文件中记录默认的ImageBase相同，则不需要修正，重定位表对于该DLL也是没有效用的。</p>
+<p>实际检验，我们将不同的PE文件拖入010editor进行观察，我自己写的exe中只链接了一个DLL，即kernel32，自然不会用到重定位表，重定位表中的block中所存入的数值也都作占位使用，理由是其高4位全为A，根据规则高4位为3时才会进行重定位</p>
+<p><del>此处应有图，然而我比较懒</del></p>
+<p>而观察另一个较为复杂的PE文件，其链接了十多个DLL，重定位表大小为69090h，足见我这次实验有多失败</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>理论上来说，我们可以在重定位表后添加一个相应结构体，来告知加载器我们的shellcode中也存在一个位置需要重定位，不过也有另一种方法，可以在内存中动态获取CreateFileW的地址。我们在这里选择前一种方法</p>
+<p>首先需要在感染程序中添加一段用于修改重定位表的内容：</p>
 <pre><code class="Python">reloc_base_size = 10
 pe.OPTIONAL_HEADER.DATA_DIRECTORY[5].Size += reloc_base_size
 for i in pe.sections:
@@ -205,11 +205,11 @@ pe_content[reloc_base_posi: reloc_base_posi+4] = new_section.VirtualAddress.to_b
 pe_content[reloc_base_posi+4: reloc_base_posi+8] = reloc_base_size.to_bytes(4, byteorder=&#39;little&#39;, signed=False)
 des_func_reloc_offset = (len(payload) - 4) | 0x3000
 pe_content[reloc_base_posi+8: reloc_base_posi+10] = des_func_reloc_offset.to_bytes(2, byteorder=&#39;little&#39;, signed=False)</code></pre>
-<p>�ʼ����Ҫ��ȷ���ǣ����ǵ����ӵ��½�������ֱ�Ӽ���ԭ�ļ�ĩβ����VA���������벿������Զ����Ҫ�Լ�����һ���ṹ���������ض�λ��ĩβ��һ���ṹ������ʼVA�����С�ͱ�����ɣ����Ǳ�����ֻ��һ����Ҫ�޸ģ���Ϊ2�ֽڣ�������ʼVA�Ϳ��С��ռ�ֽڣ�4+4+2=10�����Ըöδ��뿪ͷ�����ض�λ������Ĵ�СΪ10</p>
-<p>Ȼ������OPTIONAL_HEADER������Ŀ¼���޸��ض�λ���Ĵ�С��������Ϣ�̶��ڵ�������Ȼ���ڽڱ�ͷ���޸�.reloc��������С��˳���¼�¸ý��ļ�����ʼλ�ã������Ϳ��Լ�����ض�λ����ĩβλ�ã�Ȼ�����������½���ʼVA�����С�ͱ�������и���λ�̶�Ϊ3����ʾ�ñ���Ϊ����״̬����������ռλʹ�ã���12λΪ����shellcode���������CreateFileWƫ�Ƶ�λ��</p>
-<p>�ڲ��Ըò��ֵĹ������ַ�����һЩ��ԭ��������shellcode��д��һЩ���⡣������ԭshellcode��ʹ��cд���������ida�ϳ����ģ���64λ��ָ��������ϵĴ󲿷�PE��32λ�ġ�64λָ���32λָ���ڴ��εȷ�����кܴ�����64λָ�����ڼĴ��������ഫ�λ���ʹ�üĴ�������32λ������Ҫ������ѹ��ջ�С�</p>
-<p>����һ���������ԭ����shellcode����ֱ�ӽ���Ҫ�������ļ�������Ϊһ�����飬������ȱ�����ڱ���ʱ�������Ὣ�������λ����ջ�й̶���Ҳ����д����ָ���У������Ļ�����ֱ�Ӹ��Ƶ��µĳ����оͻᵼ��ջ�е��������ݱ����ǡ���˱ȽϺ��ʵķ����ǽ�����ֱ��ѹջ</p>
-<p>�����������㣬�ұ�д���µ�shellcode����ʹ��VS�������Ϊ32λ����</p>
+<p>最开始就需要明确的是，我们的添加的新节由于是直接加在原文件末尾，故VA与其他代码部分相差较远，需要自己制作一个结构体添加在重定位表末尾，一个结构体由起始VA，块大小和表项组成，我们表项中只有一处需要修改，故为2字节，加上起始VA和块大小所占字节，4+4+2=10，所以该段代码开头设置重定位表增大的大小为10</p>
+<p>然后是在OPTIONAL_HEADER的数据目录中修改重定位表的大小，该项信息固定在第六个。然后在节表头中修改.reloc的物理大小，顺便记录下该节文件中起始位置，这样就可以计算出重定位表的末尾位置，然后依次添加新节起始VA，块大小和表项，表项中高四位固定为3，表示该表项为启用状态而非因对齐而占位使用，低12位为根据shellcode计算出来的CreateFileW偏移的位置</p>
+<p>在测试该部分的过程中又发现了一些我原来代码中shellcode编写的一些问题。首先是原shellcode是使用c写完编译后放入ida拖出来的，是64位的指令，但市面上的大部分PE是32位的。64位指令和32位指令在传参等方面具有很大区别，64位指令由于寄存器的增多传参基本使用寄存器，而32位的则需要将参数压入栈中。</p>
+<p>还有一个问题就是原来的shellcode中我直接将需要创建的文件名声明为一个数组，这样的缺点在于编译时编译器会将该数组的位置在栈中固定，也就是写死在指令中，这样的话将其直接复制到新的程序中就会导致栈中的数组内容被覆盖。因此比较合适的方法是将内容直接压栈</p>
+<p>基于以上两点，我编写了新的shellcode，并使用VS将其编译为32位程序：</p>
 <pre><code class="C">void payload() &#123;
     __asm &#123;
         push 00000000h
@@ -238,8 +238,8 @@ pe_content[reloc_base_posi+8: reloc_base_posi+10] = des_func_reloc_offset.to_byt
         call dword ptr ds:CreateFileW
     &#125;
 &#125;</code></pre>
-<p>�ܲ��Ͻ���û�йر��ļ������Ҳû����call��֮��ƽ���ջ�������ò���shellcode���ǿ����������е�</p>
-<h2 id="���"><a href="#���" class="headerlink" title="���"></a>���</h2><p>�´γ���һ�¶�̬��λCreateFileW���´�һ��</p>
+<p>很不严谨地没有关闭文件句柄，也没有在call完之后平衡堆栈，不过该部分shellcode还是可以正常运行的</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>下次尝试一下动态定位CreateFileW，下次一定</p>
 
   </article>
 
@@ -283,7 +283,7 @@ pe_content[reloc_base_posi+8: reloc_base_posi+10] = des_func_reloc_offset.to_byt
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1649493888091"></script>-->
+<!--<script src="/js/app.js?v=1649494048011"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
