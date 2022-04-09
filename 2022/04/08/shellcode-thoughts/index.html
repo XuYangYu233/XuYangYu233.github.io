@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+  
+  <title>����������ȫ�γ�ʵ���һ�㷴˼ - XYY&#39;s blog</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="this_is_description">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  
+  
+
+  <link rel="shortcut icon" href="/imgs/remote1.png" type="image/png" />
+  <meta name="description" content="����̫���ˣ���˼��˼">
+<meta property="og:type" content="article">
+<meta property="og:title" content="����������ȫ�γ�ʵ���һ�㷴˼">
+<meta property="og:url" content="http://xuyangyu233.github.io/2022/04/08/shellcode-thoughts/index.html">
+<meta property="og:site_name" content="XYY&#39;s blog">
+<meta property="og:description" content="����̫���ˣ���˼��˼">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-08T13:49:09.000Z">
+<meta property="article:modified_time" content="2022-04-09T08:44:24.663Z">
+<meta property="article:author" content="XuYangYu233">
+<meta property="article:tag" content="re">
+<meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
+  
+  <!--<link rel="stylesheet" href="/css/style.css?v=1649493888090">-->
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+  
+  <div id="nexmoe-background">
+    <div class="nexmoe-bg" style="background-image: url(/imgs/nssh.jpg)"></div>
+    <div class="mdui-appbar mdui-shadow-0">
+      <div class="mdui-toolbar">
+        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+        <div class="mdui-toolbar-spacer"></div>
+        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+        <a href="/" title="XuYangYu233" class="mdui-btn mdui-btn-icon"><img src="/imgs/avater.jpg" alt="XuYangYu233"></a>
+       </div>
+    </div>
+  </div>
+  <div id="nexmoe-header">
+      <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="XuYangYu233">
+            <img src="/imgs/avater.jpg" alt="XuYangYu233" alt="XuYangYu233">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>9</div>
+        <div><span>标签</span>5</div>
+        <div><span>分类</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about.html" title="关于博客">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博客
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/extra.html" title="额外内容">
+            <i class="mdui-list-item-icon nexmoefont icon-ellipsis"></i>
+            <div class="mdui-list-item-content">
+                额外内容
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+  
+  <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        <form id="search_form" action_e="https://cn.bing.com/search?q=https://xuyangyu233.github.io/" onsubmit="return search();">
+            <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+        </form>
+    </div>
+</div>
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">社交按钮</h3>
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://github.com/XuYangYu233/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+  
+  
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">标签云</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/masm/" style="font-size: 10px;">masm</a> <a href="/tags/re/" style="font-size: 20px;">re</a> <a href="/tags/try-try/" style="font-size: 10px;">try_try</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 10px;">爬虫</a>
+    </div>
+    
+  </div>
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 XuYangYu233
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://nexmoe.com/hexo-theme-nexmoe.html" target="_blank">Nexmoe</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+  </div>
+  <div id="nexmoe-content">
+    <div class="nexmoe-primary">
+        <div class="nexmoe-post">
+  
+      <div class="nexmoe-post-cover" style="padding-bottom: 56.25%;"> 
+          <img data-src="/imgs/nssh.jpg" data-sizes="auto" alt="����������ȫ�γ�ʵ���һ�㷴˼" class="lazyload">
+          <h1>����������ȫ�γ�ʵ���һ�㷴˼</h1>
+      </div>
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年04月08日</a>
+    <a><i class="nexmoefont icon-areachart"></i>437 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
+</div>
+
+  <div class="nexmoe-post-right">
+    
+  </div>
+
+  <article>
+    <p>����̫���ˣ���˼��˼</p>
+<a id="more"></a>
+
+<h2 id="j����Ҫ"><a href="#j����Ҫ" class="headerlink" title="ǰ����Ҫ"></a>ǰ����Ҫ</h2><p>Ҫ�󣺱�дһ��PE�ļ���Ⱦ����infect.exe������Ҫ�����£�</p>
+<ol>
+<li>infect.exe���к���ͬĿ¼�µ�ĳ��Windows .exe�����³�Ŀ����򣬽�����һ���ⰲװ����ɫ�����Է�����ԣ���ֲ�롰�����غɡ�����.</li>
+<li>infect.exe�����ظ���ȾĿ�����.</li>
+<li>Ŀ�����ֲ�롰�����غɡ��󣬾߱�������Ϊ��һ��ִ�У��ͻ���������Ŀ¼д��һ��txt�ļ����ļ���Ϊ��ѧ��-����.txt���ļ��������⡣</li>
+</ol>
+<p>���Եģ����������˼·֮һ���ǽ����½ڣ��½��з���shellcode���޸�ԭ������ڲ���shellcodeβ������ԭ��ڣ�����shellcode����Ҫ���еĲ�������ʹ��kernel32.dll�е�CreateFileW��������ָ���ļ���Ȼ��ر��ļ������</p>
+<p>��������Ҫ��˼����Ҫ��shellcode�ⲿ�ֵ�����</p>
+<h2 id="����k���"><a href="#����k���" class="headerlink" title="����ķ���"></a>����ķ���</h2><p>ʹ��c����дһ�����º��������п��ַ�����w�е�������ָ�����ļ�����Ȼ��򵥵ص�����һ��CreateFileW</p>
+<pre><code class="c">void payload() &#123;
+    WCHAR w[64] = &#123;50, 48, 49, 57, 0&#125;;
+    LPCWSTR filename = w;
+    CreateFileW(filename, (GENERIC_READ | GENERIC_WRITE), 7, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+&#125;</code></pre>
+<p>������ɺ󣬽�exe����IDA�ж�λ�ú��������ò�����ʮ�������ֽڵ���ʽ���������Ƶ�shellcodeֲ��ĳ����С��ص��ע����CreateFileWʱƫ�Ƶ�λ�ã���ֲ������в�ѯĿ�����ĵ������<strong>�ҵ��������CreateFileW��λ��</strong>������µ�ƫ�Ʋ�����֮���������ƺ�û����</p>
+<h2 id="�������ˣ�"><a href="#�������ˣ�" class="headerlink" title="�������ˣ�"></a>�������ˣ�</h2><p>������һ��������ģ����ǹ��������ļ��ľ����</p>
+<p>�ڽ��и�ʵ��ʱ�����ַ���û�г������⣬ԭ����ʵ����ʹ�õı���Ⱦ���������Լ���cд��һ���ܼ򵥵ĳ��򡣵��ǵ�����ʹ�����ǵĸ�Ⱦ����ȥ��ȾһЩ�����ϳ�����PE�ļ�ʱ������ȫ�в�ͨ�ˡ�������������ЩPE�У��������ӵĿ�ͺ�����װ���ڴ�ʱ������<strong>�ض�λ</strong>��������ʵ�ʵ�ַ���侲̬��ַ��һ��</p>
+<p>ΪʲôҪPE�ض�λ: ������������һ��PE�ļ�ʱ������������ļ�ִ��ʱ�ᱻװ�ص�Ĭ�ϵĻ���ַ�������Ұ�code��data����ص�ַ��д��PE�ļ� �С����װ��ʱ��Ĭ�ϵ�ֵ��Ϊ����ַװ�룬����Ҫ�ض�λ���������ִ���ļ���װ�ص������ڴ����һ����ַ�����������Ǽǵ��Ǹ���ַ���Ǵ���ģ���ʱ����Ҫ���ض�λ������������PE�ļ��У�������������Ϊһ�飬�á�.reloc����ʾ��</p>
+<p>��װ���ڴ�ʱ��ÿ��EXE���ᱻ����һ���������ڴ�ռ䣬������������˶��DLL�����ڶ��DLL�ļ�ȫ��ʹ������EXE�ļ��ĵ�ַ�ռ䣬���ܱ�֤װ���ַû�б�����DLLʹ�ã��ʴ�ʱ����Ҫ�ض�λ�����������ַ������ͻ�������������س���ʱ�����������ΪĳPE����Ļ�ַ��������Ĭ�ϼ�¼��ImageBase����ͬ����ô�ó����ļ�������Ϻ����Ҫ�����ض�λ���е�������Ҫ�����ĵ�ַ���������������Ļ�ַ�͸ó����ļ��м�¼Ĭ�ϵ�ImageBase��ͬ������Ҫ�������ض�λ�����ڸ�DLLҲ��û��Ч�õġ�</p>
+<p>ʵ�ʼ��飬���ǽ���ͬ��PE�ļ�����010editor���й۲죬���Լ�д��exe��ֻ������һ��DLL����kernel32����Ȼ�����õ��ض�λ�����ض�λ���е�block�����������ֵҲ����ռλʹ�ã����������4λȫΪA�����ݹ����4λΪ3ʱ�Ż�����ض�λ</p>
+<p><del>�˴�Ӧ��ͼ��Ȼ���ұȽ���</del></p>
+<p>���۲���һ����Ϊ���ӵ�PE�ļ�����������ʮ���DLL���ض�λ����СΪ69090h����������ʵ���ж�ʧ��</p>
+<h2 id="�������"><a href="#�������" class="headerlink" title="�������"></a>�������</h2><p>��������˵�����ǿ������ض�λ��������һ����Ӧ�ṹ�壬����֪���������ǵ�shellcode��Ҳ����һ��λ����Ҫ�ض�λ������Ҳ����һ�ַ������������ڴ��ж�̬��ȡCreateFileW�ĵ�ַ������������ѡ��ǰһ�ַ���</p>
+<p>������Ҫ�ڸ�Ⱦ����������һ�������޸��ض�λ�������ݣ�</p>
+<pre><code class="Python">reloc_base_size = 10
+pe.OPTIONAL_HEADER.DATA_DIRECTORY[5].Size += reloc_base_size
+for i in pe.sections:
+    if i.Name == b&quot;.reloc\x00\x00&quot;:
+        i.Misc += 10
+        reloc_table_posi = i.PointerToRawData
+
+reloc_base_posi = reloc_table_posi + pe.OPTIONAL_HEADER.DATA_DIRECTORY[5].Size - reloc_base_size
+pe_content = bytearray(pe.__data__)
+pe_content[reloc_base_posi: reloc_base_posi+4] = new_section.VirtualAddress.to_bytes(4, byteorder=&#39;little&#39;, signed=False)
+pe_content[reloc_base_posi+4: reloc_base_posi+8] = reloc_base_size.to_bytes(4, byteorder=&#39;little&#39;, signed=False)
+des_func_reloc_offset = (len(payload) - 4) | 0x3000
+pe_content[reloc_base_posi+8: reloc_base_posi+10] = des_func_reloc_offset.to_bytes(2, byteorder=&#39;little&#39;, signed=False)</code></pre>
+<p>�ʼ����Ҫ��ȷ���ǣ����ǵ����ӵ��½�������ֱ�Ӽ���ԭ�ļ�ĩβ����VA���������벿������Զ����Ҫ�Լ�����һ���ṹ���������ض�λ��ĩβ��һ���ṹ������ʼVA�����С�ͱ�����ɣ����Ǳ�����ֻ��һ����Ҫ�޸ģ���Ϊ2�ֽڣ�������ʼVA�Ϳ��С��ռ�ֽڣ�4+4+2=10�����Ըöδ��뿪ͷ�����ض�λ������Ĵ�СΪ10</p>
+<p>Ȼ������OPTIONAL_HEADER������Ŀ¼���޸��ض�λ���Ĵ�С��������Ϣ�̶��ڵ�������Ȼ���ڽڱ�ͷ���޸�.reloc��������С��˳���¼�¸ý��ļ�����ʼλ�ã������Ϳ��Լ�����ض�λ����ĩβλ�ã�Ȼ�����������½���ʼVA�����С�ͱ�������и���λ�̶�Ϊ3����ʾ�ñ���Ϊ����״̬����������ռλʹ�ã���12λΪ����shellcode���������CreateFileWƫ�Ƶ�λ��</p>
+<p>�ڲ��Ըò��ֵĹ������ַ�����һЩ��ԭ��������shellcode��д��һЩ���⡣������ԭshellcode��ʹ��cд���������ida�ϳ����ģ���64λ��ָ��������ϵĴ󲿷�PE��32λ�ġ�64λָ���32λָ���ڴ��εȷ�����кܴ�����64λָ�����ڼĴ��������ഫ�λ���ʹ�üĴ�������32λ������Ҫ������ѹ��ջ�С�</p>
+<p>����һ���������ԭ����shellcode����ֱ�ӽ���Ҫ�������ļ�������Ϊһ�����飬������ȱ�����ڱ���ʱ�������Ὣ�������λ����ջ�й̶���Ҳ����д����ָ���У������Ļ�����ֱ�Ӹ��Ƶ��µĳ����оͻᵼ��ջ�е��������ݱ����ǡ���˱ȽϺ��ʵķ����ǽ�����ֱ��ѹջ</p>
+<p>�����������㣬�ұ�д���µ�shellcode����ʹ��VS�������Ϊ32λ����</p>
+<pre><code class="C">void payload() &#123;
+    __asm &#123;
+        push 00000000h
+        push 00740078h
+        push 0074002eh
+        push 006e0061h
+        push 00750071h
+        push 0067006eh
+        push 006f0068h
+        push 00750078h
+        push 002d0038h
+        push 00310031h
+        push 00300038h
+        push 00310032h
+        push 00300033h
+        push 00390031h
+        push 00300032h
+        mov eax, esp
+        push 0
+        push 80h
+        push 1
+        push 0
+        push 0
+        push 0c0000000h
+        push eax
+        call dword ptr ds:CreateFileW
+    &#125;
+&#125;</code></pre>
+<p>�ܲ��Ͻ���û�йر��ļ������Ҳû����call��֮��ƽ���ջ�������ò���shellcode���ǿ����������е�</p>
+<h2 id="���"><a href="#���" class="headerlink" title="���"></a>���</h2><p>�´γ���һ�¶�̬��λCreateFileW���´�һ��</p>
+
+  </article>
+
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/re/" rel="tag">re</a>
+    
+</div>
+
+  <div class="nexmoe-post-footer">
+    
+      
+  <div class="nexmoe-post-copyright">
+    <strong>本文作者：</strong>XuYangYu233<br>
+    <strong>本文链接：</strong><a href="http://xuyangyu233.github.io/2022/04/08/shellcode-thoughts/" title="http:&#x2F;&#x2F;xuyangyu233.github.io&#x2F;2022&#x2F;04&#x2F;08&#x2F;shellcode-thoughts&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;xuyangyu233.github.io&#x2F;2022&#x2F;04&#x2F;08&#x2F;shellcode-thoughts&#x2F;</a><br>
+    
+      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+    
+  </div>
+
+
+    
+    <section class="nexmoe-comment">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81MTcxNi8yODE5Nw==">
+    <script id="livere-comment-js">
+    (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+       if (typeof LivereTower === 'function') { return; }
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+       e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+    </script>
+</div>
+</section>
+  </div>
+</div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!--<script src="/js/app.js?v=1649493888091"></script>-->
+
+
+    <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
+
+
+
+  
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?562deab756be569cd4b29893e45466a1';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
